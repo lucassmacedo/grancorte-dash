@@ -1,0 +1,685 @@
+
+.checkbox {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    margin: 0;
+}
+
+.checkbox > span {
+    background-color: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    border-radius: 0.42rem;
+}
+
+.checkbox > span:after {
+    content: "";
+    border-color: transparent;
+    border-style: solid;
+    border-width: 0 2px 2px 0 /*rtl:ignore*/
+    !important;
+    -webkit-transform: rotate(45deg) /*rtl:ignore*/;
+    transform: rotate(45deg) /*rtl:ignore*/;
+    margin-top: -2px;
+}
+
+.checkbox > input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.checkbox:hover > input:not([disabled]) ~ span,
+.checkbox > input:focus ~ span {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.checkbox.checkbox-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.checkbox > input:checked ~ span {
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: none;
+}
+
+.checkbox > input:checked ~ span:after {
+    display: block;
+}
+
+.checkbox.checkbox-square > span {
+    border-radius: 0;
+}
+
+.checkbox.checkbox-circle > span {
+    border-radius: 50%;
+}
+
+.checkbox.checkbox-outline > span {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.checkbox.checkbox-outline-2x > span {
+    border-width: 2px !important;
+}
+
+.checkbox.checkbox-accent > span {
+    border-width: 3px !important;
+    border-style: solid !important;
+    background-color: transparent !important;
+}
+
+.checkbox.checkbox-accent > span:after {
+    display: block;
+}
+
+.checkbox > span {
+    height: 18px;
+    width: 18px;
+}
+
+.checkbox > span:after {
+    width: 5px;
+    height: 10px;
+}
+
+.checkbox.checkbox-lg > span {
+    height: 24px;
+    width: 24px;
+}
+
+.checkbox.checkbox-lg > span:after {
+    width: 6px;
+    height: 12px;
+}
+
+.checkbox.checkbox-outline > span {
+    height: 18px;
+    width: 18px;
+}
+
+.checkbox.checkbox-outline > span:after {
+    width: 5px;
+    height: 10px;
+}
+
+.checkbox.checkbox-outline.checkbox-lg > span {
+    height: 24px;
+    width: 24px;
+}
+
+.checkbox.checkbox-outline.checkbox-lg > span:after {
+    width: 6px;
+    height: 12px;
+}
+
+.checkbox > span {
+    background-color: #EBEDF3;
+    border: 1px solid transparent;
+}
+
+.checkbox > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox > input:checked ~ span {
+    background-color: #3699FF;
+}
+
+.checkbox > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline > input:checked ~ span {
+    background-color: transparent;
+    border-color: #3699FF;
+}
+
+.checkbox.checkbox-outline > input:checked ~ span:after {
+    border-color: #3699FF;
+}
+
+.checkbox.checkbox-primary > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-primary > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-primary > input:checked ~ span {
+    background-color: #3699FF;
+}
+
+.checkbox.checkbox-primary > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-primary > span {
+    background-color: #E1F0FF;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-primary > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-primary > input:checked ~ span {
+    background-color: #3699FF;
+}
+
+.checkbox.checkbox-light-primary > input:checked ~ span:after {
+    border-color: #FFFFFF;
+}
+
+.checkbox.checkbox-outline.checkbox-primary > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-primary > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-primary > input:checked ~ span {
+    background-color: transparent;
+    border-color: #3699FF;
+}
+
+.checkbox.checkbox-outline.checkbox-primary > input:checked ~ span:after {
+    border-color: #3699FF;
+}
+
+.checkbox.checkbox-secondary > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-secondary > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-secondary > input:checked ~ span {
+    background-color: #E4E6EF;
+}
+
+.checkbox.checkbox-secondary > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-secondary > span {
+    background-color: #EBEDF3;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-secondary > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-secondary > input:checked ~ span {
+    background-color: #E4E6EF;
+}
+
+.checkbox.checkbox-light-secondary > input:checked ~ span:after {
+    border-color: #3F4254;
+}
+
+.checkbox.checkbox-outline.checkbox-secondary > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-secondary > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-secondary > input:checked ~ span {
+    background-color: transparent;
+    border-color: #E4E6EF;
+}
+
+.checkbox.checkbox-outline.checkbox-secondary > input:checked ~ span:after {
+    border-color: #E4E6EF;
+}
+
+.checkbox.checkbox-success > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-success > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-success > input:checked ~ span {
+    background-color: #1BC5BD;
+}
+
+.checkbox.checkbox-success > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-success > span {
+    background-color: #C9F7F5;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-success > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-success > input:checked ~ span {
+    background-color: #1BC5BD;
+}
+
+.checkbox.checkbox-light-success > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline.checkbox-success > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-success > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-success > input:checked ~ span {
+    background-color: transparent;
+    border-color: #1BC5BD;
+}
+
+.checkbox.checkbox-outline.checkbox-success > input:checked ~ span:after {
+    border-color: #1BC5BD;
+}
+
+.checkbox.checkbox-info > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-info > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-info > input:checked ~ span {
+    background-color: #8950FC;
+}
+
+.checkbox.checkbox-info > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-info > span {
+    background-color: #EEE5FF;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-info > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-info > input:checked ~ span {
+    background-color: #8950FC;
+}
+
+.checkbox.checkbox-light-info > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline.checkbox-info > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-info > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-info > input:checked ~ span {
+    background-color: transparent;
+    border-color: #8950FC;
+}
+
+.checkbox.checkbox-outline.checkbox-info > input:checked ~ span:after {
+    border-color: #8950FC;
+}
+
+.checkbox.checkbox-warning > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-warning > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-warning > input:checked ~ span {
+    background-color: #FFA800;
+}
+
+.checkbox.checkbox-warning > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-warning > span {
+    background-color: #FFF4DE;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-warning > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-warning > input:checked ~ span {
+    background-color: #FFA800;
+}
+
+.checkbox.checkbox-light-warning > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline.checkbox-warning > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-warning > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-warning > input:checked ~ span {
+    background-color: transparent;
+    border-color: #FFA800;
+}
+
+.checkbox.checkbox-outline.checkbox-warning > input:checked ~ span:after {
+    border-color: #FFA800;
+}
+
+.checkbox.checkbox-danger > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-danger > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-danger > input:checked ~ span {
+    background-color: #F64E60;
+}
+
+.checkbox.checkbox-danger > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-danger > span {
+    background-color: #FFE2E5;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-danger > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-danger > input:checked ~ span {
+    background-color: #F64E60;
+}
+
+.checkbox.checkbox-light-danger > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline.checkbox-danger > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-danger > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-danger > input:checked ~ span {
+    background-color: transparent;
+    border-color: #F64E60;
+}
+
+.checkbox.checkbox-outline.checkbox-danger > input:checked ~ span:after {
+    border-color: #F64E60;
+}
+
+.checkbox.checkbox-light > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light > input:checked ~ span {
+    background-color: #F3F6F9;
+}
+
+.checkbox.checkbox-light > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-light > span {
+    background-color: #F3F6F9;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-light > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-light > input:checked ~ span {
+    background-color: #F3F6F9;
+}
+
+.checkbox.checkbox-light-light > input:checked ~ span:after {
+    border-color: #7E8299;
+}
+
+.checkbox.checkbox-outline.checkbox-light > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-light > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-light > input:checked ~ span {
+    background-color: transparent;
+    border-color: #F3F6F9;
+}
+
+.checkbox.checkbox-outline.checkbox-light > input:checked ~ span:after {
+    border-color: #F3F6F9;
+}
+
+.checkbox.checkbox-dark > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-dark > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-dark > input:checked ~ span {
+    background-color: #181C32;
+}
+
+.checkbox.checkbox-dark > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-dark > span {
+    background-color: #D1D3E0;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-dark > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-dark > input:checked ~ span {
+    background-color: #181C32;
+}
+
+.checkbox.checkbox-light-dark > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline.checkbox-dark > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-dark > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-dark > input:checked ~ span {
+    background-color: transparent;
+    border-color: #181C32;
+}
+
+.checkbox.checkbox-outline.checkbox-dark > input:checked ~ span:after {
+    border-color: #181C32;
+}
+
+.checkbox.checkbox-white > span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-white > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-white > input:checked ~ span {
+    background-color: #ffffff;
+}
+
+.checkbox.checkbox-white > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-light-white > span {
+    background-color: #ffffff;
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-white > input:focus ~ span {
+    border: 1px solid transparent;
+}
+
+.checkbox.checkbox-light-white > input:checked ~ span {
+    background-color: #ffffff;
+}
+
+.checkbox.checkbox-light-white > input:checked ~ span:after {
+    border-color: #3F4254;
+}
+
+.checkbox.checkbox-outline.checkbox-white > span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-white > input:focus ~ span {
+    background-color: transparent;
+    border-color: #D1D3E0;
+}
+
+.checkbox.checkbox-outline.checkbox-white > input:checked ~ span {
+    background-color: transparent;
+    border-color: #ffffff;
+}
+
+.checkbox.checkbox-outline.checkbox-white > input:checked ~ span:after {
+    border-color: #ffffff;
+}
+
+.checkbox-inline {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.checkbox-inline .checkbox {
+    margin-right: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+.checkbox-inline .checkbox span {
+    margin-right: 0.75rem;
+}
+
+.checkbox-inline .checkbox:last-child {
+    margin-right: 0;
+}
+
+.checkbox-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.checkbox-list .checkbox {
+    margin-bottom: 1rem;
+}
+
+.checkbox-list .checkbox span {
+    margin-right: 0.75rem;
+}
+
+.checkbox-list .checkbox:last-child {
+    margin-bottom: 0;
+}
+

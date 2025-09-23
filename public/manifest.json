@@ -1,0 +1,26 @@
+{
+  "name" : "Portal de Vendas",
+  "short_name" : "Portal de Vendas",
+  "start_url" : "https://app.grancorte.com.br/",
+  "display" : "standalone",
+  "orientation" : "portrait",
+  "background_color" : "#ffffff",
+  "theme_color" : "#ffffff",
+  "icons" : [
+    {
+      "src" : "assets/media/manifest/icon-192x192.png",
+      "sizes" : "192x192",
+      "type" : "image/png"
+    },
+    {
+      "src" : "assets/media/manifest/icon-384x384.png",
+      "sizes" : "384x384",
+      "type" : "image/png"
+    },
+    {
+      "src" : "assets/media/manifest/icon-512x512.png",
+      "sizes" : "512x512",
+      "type" : "image/png"
+    }
+  ]
+}

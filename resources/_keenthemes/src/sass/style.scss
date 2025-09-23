@@ -1,0 +1,46 @@
+// Initialize
+@import "init";
+
+// Components
+@import "components/components";
+
+// Layout
+@import "layout/base/layout";
+@import "layout/layout";
+
+.form-select {
+  line-height: 0.9 !important;
+}
+
+//.page-loader {
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//}
+
+.datepicker-dropdown {
+  padding: 10px !important;
+}
+
+.datepicker td, .datepicker th {
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: none;
+}
+
+.datepicker table tr td.day.focused, .datepicker table tr td.day:hover {
+  background-color: var(--bs-app-bg-color);
+}
+
+.datepicker table tr td.active.active, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled.active, .datepicker table tr td.active.disabled.disabled, .datepicker table tr td.active.disabled:active, .datepicker table tr td.active.disabled:hover, .datepicker table tr td.active.disabled:hover.active, .datepicker table tr td.active.disabled:hover.disabled, .datepicker table tr td.active.disabled:hover:active, .datepicker table tr td.active.disabled:hover:hover, .datepicker table tr td.active.disabled:hover[disabled], .datepicker table tr td.active.disabled[disabled], .datepicker table tr td.active:active, .datepicker table tr td.active:hover, .datepicker table tr td.active:hover.active, .datepicker table tr td.active:hover.disabled, .datepicker table tr td.active:hover:active, .datepicker table tr td.active:hover:hover, .datepicker table tr td.active:hover[disabled], .datepicker table tr td.active[disabled] {
+  background-color: var(--bs-primary) !important;
+}
+
+input.form-control:read-only {
+    background-color: var(--bs-gray-200);
+    border-color: var(--bs-gray-300);
+    color: var(--bs-gray-500);
+    opacity: 1;
+}

@@ -1,0 +1,39 @@
+// verify if is mobile and add the .card .card-body padding:0;
+
+@media (max-width: 767.98px) {
+    .card .card-body {
+        padding: 0 10px;
+    }
+}
+
+.select2-container--disabled .select2-selection.select2-selection--single.cod_filial.form-control {
+    background: var(--#{$prefix}primary-light-dark);
+}
+
+.input-group:not(.has-validation) > .form-control:not(:last-child), .input-group:not(.has-validation) > .custom-select:not(:last-child), .input-group:not(.has-validation) > .custom-file:not(:last-child) .custom-file-label::after {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.daterangepicker {
+    background-color: var(--bs-body-bg);
+    box-shadow: var(--bs-dropdown-box-shadow);
+    border-radius: .475rem;
+    border: 0;
+}
+
+.daterangepicker .calendar-table {
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--bs-body-bg);
+}
+
+.table-ajax th a {
+    text-transform: uppercase!important;
+    font-size: 13px;
+}
