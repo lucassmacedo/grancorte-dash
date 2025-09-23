@@ -12,7 +12,12 @@ class EstoqueDashboardController extends Controller
     public function index(Request $request)
     {
         // Buscar dados principais do estoque
-        $estoque = DB::connection('sqlsrv')->table('vw_pdv_estoque')->get();
+        $estoque = DB::connection('sqlsrv')->table('vw_pdv_estoque')->get()
+            ->map(function ($item) {
+                $item->GRUPO_ESTOQUE = str_replace(['MERCADO', '  '], ['MER.', ''], $item->GRUPO_ESTOQUE);
+
+                return $item;
+            });
 
         // Métricas principais com verificações de segurança
         $metricas = [
@@ -28,25 +33,17 @@ class EstoqueDashboardController extends Controller
         ];
 
 
-        // Dados por grupo de estoque
+        // Dados por grupo de estoque - TODOS os grupos, sem limitação
         $grupos = $estoque->groupBy('GRUPO_ESTOQUE')->map(function ($items, $grupo) {
             return [
                 'grupo'               => $grupo,
                 'quantidade_produtos' => $items->count(),
                 'saldo_total'         => $items->sum('SALDO_TOTAL'),
                 'saldo_tunel'         => $items->sum('SALDO_TUNEL'),
-                'saldo_venda'         => $items->sum(function ($item) {
-                    return $item->SALDO_P_VENDA ?? 0;
-                }),
-                'valor_estimado'      => $items->sum(function ($item) {
-                    $saldo = $item->SALDO_TOTAL ?? 0;
-                    $preco = $item->PRECO_VENDA ?? 0;
-
-                    return $saldo * $preco;
-                }),
+                'saldo_venda'         => $items->sum('SALDO_DISPONIVEL_VENDA_KG')
             ];
-        })->sortByDesc('saldo_total')->take(8);
-
+        })->sortByDesc('saldo_total')
+            ->take(15);// Ordenar por saldo total (maior para menor)
         // Dados por tipo de conservação
         $conservacao = $estoque->groupBy('TIPO_CONSERVACAO')->map(function ($items, $tipo) {
             return [
