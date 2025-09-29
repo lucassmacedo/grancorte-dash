@@ -750,7 +750,6 @@
             data: [
                 parseFloat(distribuicaoData.em_tunel || 0),
                 parseFloat(distribuicaoData.disponivel || 0),
-                parseFloat(distribuicaoData.auxiliar || 0)
             ]
         }],
         chart: {

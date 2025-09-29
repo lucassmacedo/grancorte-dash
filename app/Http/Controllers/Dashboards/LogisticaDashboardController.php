@@ -51,7 +51,11 @@ class LogisticaDashboardController extends Controller
             ->select('acompanhamento', DB::raw('count(*) as total'))
             ->groupBy('acompanhamento')
             ->pluck('total', 'acompanhamento')
+            ->filter(function ($q) {
+                return $q > 0;
+            })
             ->toArray();
+
         $statusLabels = LogisticaEntrega::$status;
         $statusDist   = [];
         foreach ($statusLabels as $k => $label) {
@@ -62,6 +66,8 @@ class LogisticaDashboardController extends Controller
                 'color'  => LogisticaEntrega::$status_color_hex[$k] ?? '#666'
             ];
         }
+
+        $statusDist = array_values(array_filter($statusDist, fn($s) => $s['total'] > 0));
 
         // Cargas por Filial (pizza)
         $filialCargas = (clone $base)
@@ -78,8 +84,8 @@ class LogisticaDashboardController extends Controller
 
         // Problemas x Resolvidos (pizza)
         $problemasPie = [
-            'pendentes' => (int) $totalProblemas,
-            'resolvidos'=> (int) $totalProblemasOk,
+            'pendentes'  => (int) $totalProblemas,
+            'resolvidos' => (int) $totalProblemasOk,
         ];
 
         // Tempos médios (minutos)
@@ -121,23 +127,24 @@ class LogisticaDashboardController extends Controller
         $formatMinutes = function ($m) {
             $m = $m ?? 0;
             $m = (int) round($m);
+
             return CarbonInterval::minutes($m)->cascade()->format('%H:%I');
         };
 
         $metricas = [
-            'total_notas'                 => $totalNotas,
-            'cargas'                      => $cargasDistintas,
-            'entregues'                   => $totalEntregues,
-            'andamento'                   => $totalAndamento,
-            'problemas'                   => $totalProblemas,
-            'percentual_ok'               => $percentualOK,
-            'data_formatada'              => Carbon::createFromFormat('d/m/Y', $data['data_entrega'])->translatedFormat('d \\d\\e F, Y'),
-            'tempo_medio_aguardando_min'  => (int) round($avgAguardando ?? 0),
-            'tempo_medio_descarrego_min'  => (int) round($avgDescarrego ?? 0),
-            'tempo_medio_trajeto_min'     => (int) round($avgTrajeto ?? 0),
-            'tempo_medio_aguardando_fmt'  => $formatMinutes($avgAguardando),
-            'tempo_medio_descarrego_fmt'  => $formatMinutes($avgDescarrego),
-            'tempo_medio_trajeto_fmt'     => $formatMinutes($avgTrajeto),
+            'total_notas'                => $totalNotas,
+            'cargas'                     => $cargasDistintas,
+            'entregues'                  => $totalEntregues,
+            'andamento'                  => $totalAndamento,
+            'problemas'                  => $totalProblemas,
+            'percentual_ok'              => $percentualOK,
+            'data_formatada'             => Carbon::createFromFormat('d/m/Y', $data['data_entrega'])->translatedFormat('d \\d\\e F, Y'),
+            'tempo_medio_aguardando_min' => (int) round($avgAguardando ?? 0),
+            'tempo_medio_descarrego_min' => (int) round($avgDescarrego ?? 0),
+            'tempo_medio_trajeto_min'    => (int) round($avgTrajeto ?? 0),
+            'tempo_medio_aguardando_fmt' => $formatMinutes($avgAguardando),
+            'tempo_medio_descarrego_fmt' => $formatMinutes($avgDescarrego),
+            'tempo_medio_trajeto_fmt'    => $formatMinutes($avgTrajeto),
         ];
 
         return view('pages.dashboards.logistica', compact(
@@ -161,11 +168,11 @@ class LogisticaDashboardController extends Controller
         $totalAndamento = (clone $base)->whereIn('acompanhamento', [0, 1, 2])->count();
 
         return response()->json([
-            'timestamp'      => now()->format('d/m/Y H:i:s'),
-            'total_notas'    => $totalNotas,
-            'entregues'      => $totalEntregues,
-            'andamento'      => $totalAndamento,
-            'percentual_ok'  => $totalNotas > 0 ? round(($totalEntregues / $totalNotas) * 100, 1) : 0,
+            'timestamp'     => now()->format('d/m/Y H:i:s'),
+            'total_notas'   => $totalNotas,
+            'entregues'     => $totalEntregues,
+            'andamento'     => $totalAndamento,
+            'percentual_ok' => $totalNotas > 0 ? round(($totalEntregues / $totalNotas) * 100, 1) : 0,
         ]);
     }
 }

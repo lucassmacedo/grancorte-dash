@@ -464,77 +464,73 @@
         Chart.register(ChartDataLabels);
     }
 
-    const makePie = (ctx, labels, data, colors) => {
+    const makeBar = (ctx, labels, data, colors) => {
         if (!ctx) return;
-        const total = (data || []).reduce((a, b) => a + (Number(b) || 0), 0);
         return new Chart(ctx, {
-            type: 'pie',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
                     data: data,
                     backgroundColor: colors,
                     borderColor: '#222',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    minBarLength: 5 // altura mínima da barra
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        labels: {
-                            color: '#ddd', boxWidth: 14,
-                            font: {
-                                size: 18 // Set the desired font size here
-                            }
-                        }
+                        display: false
                     },
                     datalabels: {
                         color: '#fff',
+                        fontsize: 16,
                         textStrokeColor: 'rgba(0,0,0,0.6)',
                         textStrokeWidth: 3,
-                        formatter: (value, ctx) => {
-                            const v = Number(value) || 0;
-                            const labels = ctx.chart?.data?.labels || [];
-                            const label = labels[ctx.dataIndex] ?? '';
-                            const total = (ctx?.chart?.data?.datasets?.[0]?.data || []).reduce((a, b) => a + (Number(b) || 0), 0);
-                            const perc = total ? Math.round((v / total) * 100) : 0;
-                            if (!v) return '';
-                            return `${label}\n${v} (${perc}%)`;
-                        },
-                        font: {weight: '800', size: 15},
-                        align: 'center',
-                        anchor: 'center',
+                        align: 'end',
                         textAlign: 'center',
                         clamp: true,
                         clip: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#ddd', font: { size: 18 } }
+                    },
+                    y: {
+                        ticks: { color: '#ddd', font: { size: 18 } },
+                        beginAtZero: true
                     }
                 }
             }
         });
     };
 
-    const renderPies = () => {
-        // Status Pie
+    const renderBars = () => {
+        // Status Bar
         const sLabels = statusDist.map(s => s.status);
         const sData = statusDist.map(s => s.total);
         const sColors = statusDist.map(s => s.color || '#888');
-        makePie(document.getElementById('statusPie'), sLabels, sData, sColors);
+        makeBar(document.getElementById('statusPie'), sLabels, sData, sColors);
 
-        // Filial Pie
-        const fLabels = (filialCargas || []).map(f => 'Filial ' + (f.filial || '-'));
+        // Filial Bar
+        const fLabels = (filialCargas || []).map(f => (f.filial || '-'));
         const fData = (filialCargas || []).map(f => f.total);
         const palette = ['#4facfe', '#00f2fe', '#43e97b', '#38f9d7', '#f5576c', '#f093fb', '#fee140', '#fa709a', '#764ba2', '#667eea'];
         const fColors = fLabels.map((_, i) => palette[i % palette.length]);
-        makePie(document.getElementById('filialPie'), fLabels, fData, fColors);
+        makeBar(document.getElementById('filialPie'), fLabels, fData, fColors);
 
-        // Problemas Pie
+        // Problemas Bar
         const pLabels = ['Pendentes', 'Resolvidos'];
         const pData = [problemasPie.pendentes || 0, problemasPie.resolvidos || 0];
         const pColors = ['#dc3545', '#28a745'];
-        makePie(document.getElementById('problemasPie'), pLabels, pData, pColors);
+        makeBar(document.getElementById('problemasPie'), pLabels, pData, pColors);
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-        renderPies();
+        renderBars();
     });
 </script>

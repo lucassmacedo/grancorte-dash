@@ -96,7 +96,6 @@ class EstoqueDashboardController extends Controller
         $distribuicao = [
             'em_tunel'   => $metricas['total_saldo_tunel'],
             'disponivel' => $metricas['total_saldo_p_venda'],
-            'auxiliar'   => $metricas['total_saldo_aux'],
         ];
 
         return view('pages.dashboards.estoque', compact(
