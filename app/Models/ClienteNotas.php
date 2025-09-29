@@ -11,10 +11,12 @@ class ClienteNotas extends Model
     use HasFactory, Sortable;
 
     public $sortable   = ['valor_liquido'];
-    public $sortableAs = ['data_mvto', 'num_docto','cod_saida'];
+    public $sortableAs = ['data_mvto', 'num_docto', 'cod_saida'];
+
 
     protected $casts = [
-        'vendedores' => 'array',
+        'vendedores'  => 'array',
+        'data_pedido' => 'date',
     ];
 
     protected $guarded = [];

@@ -299,22 +299,6 @@
         transition: width .6s ease;
     }
 
-    .refresh-indicator {
-        position: fixed;
-        top: 2rem;
-        right: 2rem;
-        background: rgba(0, 0, 0, .8);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glow-secondary);
-        border-radius: 50px;
-        padding: 1rem 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        z-index: 1000;
-        font-weight: 500;
-        box-shadow: 0 10px 30px rgba(0, 255, 136, .2);
-    }
 
     @media (max-width: 1200px) {
         .tv-header h1 {

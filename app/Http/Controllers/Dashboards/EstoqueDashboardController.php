@@ -61,9 +61,7 @@ class EstoqueDashboardController extends Controller
                 'quantidade_produtos' => $items->count(),
                 'saldo_total'         => $items->sum('SALDO_TOTAL'),
                 'saldo_tunel'         => $items->sum('SALDO_TUNEL'),
-                'saldo_venda'         => $items->sum(function ($item) {
-                    return $item->SALDO_P_VENDA ?? 0;
-                }),
+                'saldo_venda'         => $items->sum('SALDO_DISPONIVEL_VENDA_KG')
             ];
         })->sortByDesc('saldo_total');
 
