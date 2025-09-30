@@ -140,7 +140,6 @@
         '{{ route('dashboard.comercial-vendedores') }}',
     ];
 
-
     const iframe = document.getElementById('currentDashboard');
     const indicators = document.querySelectorAll('.indicator');
     const timerDisplay = document.querySelector('.timer');
@@ -157,12 +156,19 @@
         loading.classList.add('show');
         iframe.style.opacity = '0';
 
+        // Limpa o timer anterior
+        clearInterval(interval);
+
         // Carrega o novo dashboard
         iframe.src = dashboardUrls[index];
 
         iframe.onload = () => {
             loading.classList.remove('show');
             iframe.style.opacity = '1';
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft + 's';
+            progressFill.style.width = '0%';
+            interval = setInterval(updateTimer, 1000);
         };
 
         // Atualiza indicadores
@@ -171,7 +177,6 @@
         });
 
         currentIndex = index;
-        timeLeft = 30;
     }
 
     function nextDashboard() {
@@ -208,9 +213,7 @@
 
     // Carrega o primeiro dashboard
     loadDashboard(0);
-
-    // Inicia o timer
-    interval = setInterval(updateTimer, 1000);
 </script>
 </body>
 </html>
+
