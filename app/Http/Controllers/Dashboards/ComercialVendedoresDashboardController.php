@@ -27,7 +27,6 @@ class ComercialVendedoresDashboardController extends Controller
             ->leftJoin('users', 'users.codigo', 'cliente_notas.cod_vendedor')
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->first();
 
@@ -35,7 +34,6 @@ class ComercialVendedoresDashboardController extends Controller
         $produtos_vendidos = ClienteNotas::selectRaw("count(distinct cod_produto) as produtos")
             ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->first();
 
@@ -60,6 +58,7 @@ class ComercialVendedoresDashboardController extends Controller
         // Vendas dos últimos 7 dias (corrigido para PostgreSQL e sintaxe PHP)
         $inicio_7dias = Carbon::today()->subDays(6)->setTime(0, 0, 0);
         $fim_7dias    = Carbon::today()->setTime(23, 59, 59);
+
         $vendas_ultimos_7_dias = ClienteNotas::selectRaw(
             "DATE(data_mvto || ' ' || hora) as dia, sum(valor_liquido) as valor_liquido"
         )

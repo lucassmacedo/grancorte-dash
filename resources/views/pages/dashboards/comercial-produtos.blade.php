@@ -422,20 +422,9 @@
     <div class="row g-4 mb-5">
         <div class="col-xl col-lg-3 col-md-6">
             <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <div class="metric-label">Total de Produtos</div>
-                <div class="metric-value" id="total-produtos">{{ $produtos_performance->count() }}</div>
-            </div>
-        </div>
-        <div class="col-xl col-lg-3 col-md-6">
-            <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <div class="metric-label">Total de Notas</div>
+                <div class="metric-icon"><i class="fas fa-receipt"></i></div>
                 <div class="metric-value" id="total-produtos">{{ $dashboard_geral->notas ?? '-' }}</div>
+                <div class="metric-label">Total de Notas</div>
             </div>
         </div>
         <div class="col-xl col-lg-3 col-md-6">
@@ -443,27 +432,30 @@
                 <div class="metric-icon">
                     <i class="fas fa-boxes"></i>
                 </div>
-                <div class="metric-label">Total de Clientes</div>
-                <div class="metric-value" id="total-produtos">{{ $dashboard_geral->clientes ?? '-' }}</div>
-            </div>
-        </div>
-        <div class="col-xl col-lg-3 col-md-6">
-            <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <div class="metric-label">Valor Médio</div>
-                <div class="metric-value" id="total-produtos">R$ {{ number_format($dashboard_geral->valor_medio ?? 0, 2, ',', '.') }}</div>
+                <div class="metric-value" id="total-produtos">{{ $produtos_vendidos->produtos }}</div>
+                <div class="metric-label">Total de Produtos</div>
             </div>
         </div>
 
-        <div class="col-xl col-lg-3 col-md-6">
+        <div class="col-xl col-md-3 col-sm-6">
             <div class="metric-card">
-                <div class="metric-icon">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <div class="metric-label">Valor Líquido</div>
-                <div class="metric-value" id="total-produtos">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
+                <div class="metric-icon"><i class="fas fa-users"></i></div>
+                <div class="metric-value" id="total-clientes">{{ $dashboard_geral->clientes  }}</div>
+                <div class="metric-label">Clientes</div>
+            </div>
+        </div>
+        <div class="col-xl col-md-3 col-sm-6">
+            <div class="metric-card">
+                <div class="metric-icon"><i class="fas fa-calculator"></i></div>
+                <div class="metric-value fs-1" id="valor-medio">R$ {{ number_format($dashboard_geral->valor_medio ?? 0, 2, ',', '.') }}</div>
+                <div class="metric-label">Ticket Médio</div>
+            </div>
+        </div>
+        <div class="col-xl col-md-3 col-sm-6">
+            <div class="metric-card">
+                <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="metric-value fs-1" id="valor-total">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
+                <div class="metric-label">Faturamento</div>
             </div>
         </div>
     </div>
@@ -505,69 +497,38 @@
             </div>
         </div>
 
-        <h2 style="margin-top:2rem; text-align:center;">Produtos Mais Vendidos (Quantidade)</h2>
-        <div style="overflow-x:auto; margin-bottom:2rem;">
-            <table class="table table-dark table-striped">
-                <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Quantidade Total</th>
-                    <th>Valor Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($produtos_mais_vendidos as $produto)
-                    <tr>
-                        <td>{{ $produto->descricao }}</td>
-                        <td>{{ $produto->quantidade_total }}</td>
-                        <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <!-- Top Produtos -->
+        <div class="col-xl-6 col-lg-6">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h1 class="chart-title">
+                        <i class="fas fa-trophy"></i>
+                        Produtos Mais Vendidos (Quantidade)
+                    </h1>
+                </div>
+                <div class="table-container">
+                    <table class="elegant-table">
+                        <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade Total</th>
+                            <th>Valor Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($produtos_mais_vendidos as $produto)
+                            <tr>
+                                <td>{{ $produto->descricao }}</td>
+                                <td>{{ $produto->quantidade_total }}</td>
+                                <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <h2 style="margin-top:2rem; text-align:center;">Produtos Mais Vendidos (Valor)</h2>
-        <div style="overflow-x:auto; margin-bottom:2rem;">
-            <table class="table table-dark table-striped">
-                <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Quantidade Total</th>
-                    <th>Valor Total</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($produtos_mais_vendidos_valor as $produto)
-                    <tr>
-                        <td>{{ $produto->descricao }}</td>
-                        <td>{{ $produto->quantidade_total }}</td>
-                        <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <h2 style="margin-top:2rem; text-align:center;">Vendas Últimos 7 Dias</h2>
-        <div style="overflow-x:auto; margin-bottom:2rem;">
-            <table class="table table-dark table-striped">
-                <thead>
-                <tr>
-                    <th>Dia</th>
-                    <th>Valor Líquido</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($vendas_ultimos_7_dias as $dia => $venda)
-                    <tr>
-                        <td>{{ \Carbon\Carbon::parse($dia)->format('d/m/Y') }}</td>
-                        <td>R$ {{ number_format($venda->valor_liquido, 2, ',', '.') }}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
     </div>
 </body>
 </html>

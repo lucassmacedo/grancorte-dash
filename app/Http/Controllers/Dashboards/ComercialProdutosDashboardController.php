@@ -13,7 +13,9 @@ class ComercialProdutosDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $data_hoje = Carbon::today()->subDays(3)->format('Y-m-d');
+        // Intervalo desejado: de ontem às 20:00 até hoje às 23:59:59
+        $inicio = Carbon::yesterday()->setTime(20, 0, 0);
+        $fim    = Carbon::today()->setTime(23, 59, 59);
 
         $dashboard_geral = ClienteNotasItem::selectRaw("
             count(distinct id_nota) as notas,
@@ -22,7 +24,7 @@ class ComercialProdutosDashboardController extends Controller
             sum(valor_total) as valor_liquido
         ")
             ->join('cliente_notas', 'cliente_notas.id', 'cliente_notas_items.id_nota')
-            ->whereDate('cliente_notas.data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->first();
 
@@ -35,7 +37,7 @@ class ComercialProdutosDashboardController extends Controller
         ")
             ->join('cliente_notas', 'cliente_notas.id', 'cliente_notas_items.id_nota')
             ->groupBy('cod_produto', 'descricao')
-            ->whereDate('data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->orderBy('valor_total', 'desc')
             ->take(10)
@@ -44,24 +46,35 @@ class ComercialProdutosDashboardController extends Controller
         $produtos_mais_vendidos       = $produtos_performance->sortByDesc('quantidade_total');
         $produtos_mais_vendidos_valor = $produtos_performance->sortByDesc('valor_total');
 
+        $inicio_7dias          = Carbon::today()->subDays(6)->setTime(0, 0, 0);
+        $fim_7dias             = Carbon::today()->setTime(23, 59, 59);
         $vendas_ultimos_7_dias = ClienteNotasItem::selectRaw('
             DATE(cliente_notas.data_mvto) as dia,
             sum(valor_total) as valor_liquido
         ')
             ->join('cliente_notas', 'cliente_notas.id', 'cliente_notas_items.id_nota')
-            ->whereBetween('cliente_notas.data_mvto', [Carbon::today()->subDays(6)->format('Y-m-d'), Carbon::today()->format('Y-m-d')])
+            ->whereRaw("(data_mvto || ' ' || hora) BETWEEN ? AND ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->groupBy(DB::raw('DATE(cliente_notas.data_mvto)'))
             ->orderBy('dia')
             ->get()
             ->keyBy('dia');
 
+        // Produtos distintos vendidos
+        $produtos_vendidos = ClienteNotas::selectRaw("count(distinct cod_produto) as produtos")
+            ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->where('cancelada', false)
+            ->first();
+
+
         return view('pages.dashboards.comercial-produtos', compact(
             'dashboard_geral',
             'produtos_performance',
             'produtos_mais_vendidos',
             'produtos_mais_vendidos_valor',
-            'vendas_ultimos_7_dias'
+            'vendas_ultimos_7_dias',
+            'produtos_vendidos',
         ));
     }
 }

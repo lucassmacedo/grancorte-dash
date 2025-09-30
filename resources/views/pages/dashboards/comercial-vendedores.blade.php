@@ -308,7 +308,7 @@
             <div class="metric-card">
                 <div class="metric-icon"><i class="fas fa-receipt"></i></div>
                 <div class="metric-value" id="total-notas">{{ $dashboard_geral->notas }}</div>
-                <div class="metric-label">Notas Hoje</div>
+                <div class="metric-label">Total de Notas</div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">

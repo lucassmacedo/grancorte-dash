@@ -138,6 +138,7 @@
         '{{ route('dashboard.estoque') }}',
         '{{ route('dashboard.logistica') }}',
         '{{ route('dashboard.comercial-vendedores') }}',
+        '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php'
     ];
 
     const iframe = document.getElementById('currentDashboard');
@@ -216,4 +217,3 @@
 </script>
 </body>
 </html>
-
