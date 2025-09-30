@@ -307,28 +307,28 @@
         <div class="col-lg-2 col-md-4 col-sm-6">
             <div class="metric-card">
                 <div class="metric-icon"><i class="fas fa-receipt"></i></div>
-                <div class="metric-value" id="total-notas">{{ number_format($dashboard_geral->notas ?? 0) }}</div>
+                <div class="metric-value" id="total-notas">{{ $dashboard_geral->notas }}</div>
                 <div class="metric-label">Notas Hoje</div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
             <div class="metric-card">
                 <div class="metric-icon"><i class="fas fa-users"></i></div>
-                <div class="metric-value" id="total-clientes">{{ number_format($dashboard_geral->clientes ?? 0) }}</div>
+                <div class="metric-value" id="total-clientes">{{ $dashboard_geral->clientes  }}</div>
                 <div class="metric-label">Clientes</div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
             <div class="metric-card">
                 <div class="metric-icon"><i class="fas fa-user-tie"></i></div>
-                <div class="metric-value" id="vendedores-ativos">{{ number_format($dashboard_geral->vendedores_ativos ?? 0) }}</div>
+                <div class="metric-value" id="vendedores-ativos">{{ $dashboard_geral->vendedores_ativos }}</div>
                 <div class="metric-label">Vendedores Ativos</div>
             </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
             <div class="metric-card">
                 <div class="metric-icon"><i class="fas fa-box"></i></div>
-                <div class="metric-value" id="produtos-vendidos">{{ number_format($produtos_vendidos->produtos ?? 0) }}</div>
+                <div class="metric-value" id="produtos-vendidos">{{ $produtos_vendidos->produtos }}</div>
                 <div class="metric-label">Produtos Vendidos</div>
             </div>
         </div>

@@ -13,8 +13,9 @@ class ComercialVendedoresDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Data atual (hoje)
-        $data_hoje = Carbon::today()->subDays(3)->format('Y-m-d');
+        // Intervalo desejado: de ontem às 20:00 até hoje às 23:59:59
+        $inicio = Carbon::yesterday()->setTime(20, 0, 0);
+        $fim    = Carbon::today()->setTime(23, 59, 59);
 
         // Métricas gerais do dia
         $dashboard_geral = ClienteNotas::selectRaw("
@@ -25,14 +26,16 @@ class ComercialVendedoresDashboardController extends Controller
             count(distinct cliente_notas.cod_vendedor) as vendedores_ativos")
             ->leftJoin('users', 'users.codigo', 'cliente_notas.cod_vendedor')
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereDate('cliente_notas.data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->first();
 
-        // Produtos distintos vendidos hoje
+        // Produtos distintos vendidos
         $produtos_vendidos = ClienteNotas::selectRaw("count(distinct cod_produto) as produtos")
             ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
-            ->whereDate('data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->first();
 
@@ -47,22 +50,22 @@ class ComercialVendedoresDashboardController extends Controller
             ->join('users', 'users.codigo', 'cliente_notas.cod_vendedor')
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->groupBy('cliente_notas.cod_vendedor', 'users.apelido')
-            ->whereDate('data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->orderBy('valor_liquido', 'desc')
             ->take(5)
             ->get();
 
-        // Vendas dos últimos 7 dias
-        $data_inicio = Carbon::today()->subDays(6)->format('Y-m-d');
-        $data_fim = Carbon::today()->format('Y-m-d');
-        $vendas_ultimos_7_dias = ClienteNotas::selectRaw('
-            DATE(data_mvto) as dia,
-            sum(valor_liquido) as valor_liquido
-        ')
-            ->whereBetween('data_mvto', [$data_inicio, $data_fim])
+        // Vendas dos últimos 7 dias (corrigido para PostgreSQL e sintaxe PHP)
+        $inicio_7dias = Carbon::today()->subDays(6)->setTime(0, 0, 0);
+        $fim_7dias    = Carbon::today()->setTime(23, 59, 59);
+        $vendas_ultimos_7_dias = ClienteNotas::selectRaw(
+            "DATE(data_mvto || ' ' || hora) as dia, sum(valor_liquido) as valor_liquido"
+        )
+            ->whereRaw("(data_mvto || ' ' || hora) BETWEEN ? AND ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->groupBy(DB::raw('DATE(data_mvto)'))
+            ->groupBy(DB::raw("DATE(data_mvto || ' ' || hora)"))
             ->orderBy('dia')
             ->get()
             ->keyBy('dia');
@@ -74,7 +77,8 @@ class ComercialVendedoresDashboardController extends Controller
             count(*) as notas,
             sum(valor_liquido) as valor_liquido")
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereDate('data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->groupBy('cod_cli_for', 'clientes.nome')
             ->orderBy('valor_liquido', 'desc')
@@ -90,7 +94,8 @@ class ComercialVendedoresDashboardController extends Controller
             count(*) as ocorrencias")
             ->join('cliente_notas', 'cliente_notas_items.id_nota', 'cliente_notas.id')
             ->join('produtos', 'produtos.codigo', 'cliente_notas_items.cod_produto')
-            ->whereDate('data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->groupBy('cod_produto', 'produtos.descricao')
             ->orderBy('quantidade_total', 'desc')
@@ -108,7 +113,8 @@ class ComercialVendedoresDashboardController extends Controller
         ])
             ->join('users', 'users.codigo', 'cliente_notas.cod_vendedor')
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereDate('data_mvto', $data_hoje)
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
             ->orderBy('data_mvto', 'desc')
             ->take(5)
@@ -123,27 +129,5 @@ class ComercialVendedoresDashboardController extends Controller
             'produtos_mais_vendidos',
             'ultimas_vendas'
         ));
-    }
-
-    public function refresh()
-    {
-        $data_hoje = Carbon::today()->format('Y-m-d');
-
-        $dashboard_geral = ClienteNotas::selectRaw("
-            count(*) as notas,
-            count(distinct cod_cli_for) as clientes,
-            sum(valor_liquido) as valor_liquido")
-            ->whereDate('data_mvto', $data_hoje)
-            ->where('cancelada', false)
-            ->first();
-
-        return response()->json([
-            'timestamp' => now()->format('d/m/Y H:i:s'),
-            'metricas' => [
-                'total_notas' => number_format($dashboard_geral->notas ?? 0),
-                'total_clientes' => number_format($dashboard_geral->clientes ?? 0),
-                'valor_total' => 'R$ ' . number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.'),
-            ]
-        ]);
     }
 }
