@@ -341,7 +341,11 @@
     <div class="tv-header">
         <h1>Dashboard Logística</h1>
         <div class="subtitle">
-            <span><i class="fa-solid fa-truck"></i> Acompanhamento de Entregas</span>
+            <span>Dashboard em Tempo Real</span>
+            <div class="live-indicator">
+                <div class="pulse-dot"></div>
+                <span>{{ now()->format('d/m/Y H:i') }}</span>
+            </div>
         </div>
     </div>
 

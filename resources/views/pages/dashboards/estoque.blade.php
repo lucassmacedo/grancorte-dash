@@ -450,14 +450,13 @@
         <h1>
             DASHBOARD - ESTOQUE
         </h1>
-        {{--        <div class="subtitle">--}}
-        {{--            <span>Dashboard em Tempo Real</span>--}}
-        {{--            <div class="live-indicator">--}}
-        {{--                <div class="pulse-dot"></div>--}}
-        {{--                <span>AO VIVO</span>--}}
-        {{--            </div>--}}
-        {{--            <span>{{ now()->format('d/m/Y H:i') }}</span>--}}
-        {{--        </div>--}}
+        <div class="subtitle">
+            <span>Dashboard em Tempo Real</span>
+            <div class="live-indicator">
+                <div class="pulse-dot"></div>
+                <span>{{ now()->format('d/m/Y H:i') }}</span>
+            </div>
+        </div>
     </div>
 
     <!-- Métricas Principais -->
