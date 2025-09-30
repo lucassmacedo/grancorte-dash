@@ -500,49 +500,10 @@
                 <div class="metric-label">Disponível Venda (KG)</div>
             </div>
         </div>
-
-        <div class="col-xl col-lg-4 col-md-6">
-            <div class="metric-card variant-4">
-                <div class="metric-icon">
-                    <i class="fas fa-plus-circle"></i>
-                </div>
-                <div class="metric-value">{{ number_format($metricas['total_saldo_aux'] ?? 0, 2, ',', '.') }}</div>
-                <div class="metric-label">Saldo Auxiliar (KG)</div>
-            </div>
-        </div>
     </div>
 
     <!-- Gráficos e Tabelas -->
     <div class="row g-4">
-        <!-- Gráfico de Distribuição por Grupo -->
-        <div class="col-xl-7 col-lg-6">
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h1 class="chart-title">
-                        <i class="fas fa-chart-bar"></i>
-                        Estoque por Grupo (Top 15)
-                    </h1>
-                </div>
-                <div class="chart-content" style="height: 500px; overflow-y: auto;">
-                    <div id="chart-grupos" style="height: 100%;"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gráfico de Conservação -->
-        <div class="col-xl-5 col-lg-6">
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h1 class="chart-title">
-                        <i class="fas fa-thermometer-half"></i>
-                        Distribuição Túnel vs Disponível
-                    </h1>
-                </div>
-                <div class="chart-content">
-                    <div id="chart-distribuicao"></div>
-                </div>
-            </div>
-        </div>
 
         <!-- Top Produtos -->
         <div class="col-xl-7 col-lg-6">
@@ -616,6 +577,37 @@
                 </div>
             </div>
         </div>
+
+        <!-- Gráfico de Distribuição por Grupo -->
+        <div class="col-xl-7 col-lg-6">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h1 class="chart-title">
+                        <i class="fas fa-chart-bar"></i>
+                        Estoque por Grupo (Top 15)
+                    </h1>
+                </div>
+                <div class="chart-content" style="height: 500px; overflow-y: auto;">
+                    <div id="chart-grupos" style="height: 100%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico de Conservação -->
+        <div class="col-xl-5 col-lg-6">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h1 class="chart-title">
+                        <i class="fas fa-thermometer-half"></i>
+                        Distribuição Túnel vs Disponível
+                    </h1>
+                </div>
+                <div class="chart-content">
+                    <div id="chart-distribuicao"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
