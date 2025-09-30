@@ -128,6 +128,8 @@
 <div class="controls">
     <div class="indicator active" onclick="goToDashboard(0)"></div>
     <div class="indicator" onclick="goToDashboard(1)"></div>
+    <div class="indicator" onclick="goToDashboard(2)"></div>
+    <div class="indicator" onclick="goToDashboard(3)"></div>
     <span class="timer"></span>
     <button onclick="togglePause()">Pausar</button>
 </div>
