@@ -123,6 +123,7 @@
 <div class="container">
     <div class="loading">Carregando dashboard...</div>
     <iframe id="currentDashboard"></iframe>
+    <iframe id="preloadDashboard" style="display:none;"></iframe>
 </div>
 
 <div class="controls">
@@ -144,6 +145,7 @@
     ];
 
     const iframe = document.getElementById('currentDashboard');
+    const preloadIframe = document.getElementById('preloadDashboard');
     const indicators = document.querySelectorAll('.indicator');
     const timerDisplay = document.querySelector('.timer');
     const pauseBtn = document.querySelector('button');
@@ -154,38 +156,65 @@
     let timeLeft = 30;
     let isPaused = false;
     let interval;
+    let preloadStarted = false;
+
+    function startTimer() {
+        clearInterval(interval);
+        interval = setInterval(updateTimer, 1000);
+    }
 
     function loadDashboard(index) {
         loading.classList.add('show');
         iframe.style.opacity = '0';
-
-        // Limpa o timer anterior
         clearInterval(interval);
+        preloadStarted = false;
 
-        // Carrega o novo dashboard
+        // Carrega o dashboard atual
         iframe.src = dashboardUrls[index];
-
         iframe.onload = () => {
             loading.classList.remove('show');
             iframe.style.opacity = '1';
             timeLeft = 30;
             timerDisplay.textContent = timeLeft + 's';
             progressFill.style.width = '0%';
-            interval = setInterval(updateTimer, 1000);
+            startTimer();
         };
 
         // Atualiza indicadores
         indicators.forEach((ind, i) => {
             ind.classList.toggle('active', i === index);
         });
-
         currentIndex = index;
+    }
+
+    function preloadNextDashboard() {
+        const nextIndex = (currentIndex + 1) % dashboardUrls.length;
+        preloadIframe.src = dashboardUrls[nextIndex];
+    }
+
+    function swapToPreloadedDashboard() {
+        clearInterval(interval);
+        iframe.src = preloadIframe.src;
+        preloadIframe.src = '';
+        preloadStarted = false;
+        currentIndex = (currentIndex + 1) % dashboardUrls.length;
+        indicators.forEach((ind, i) => {
+            ind.classList.toggle('active', i === currentIndex);
+        });
+        // Quando o novo iframe carregar, reinicia o timer
+        iframe.onload = () => {
+            loading.classList.remove('show');
+            iframe.style.opacity = '1';
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft + 's';
+            progressFill.style.width = '0%';
+            startTimer();
+        };
     }
 
     function nextDashboard() {
         if (!isPaused) {
-            currentIndex = (currentIndex + 1) % dashboardUrls.length;
-            loadDashboard(currentIndex);
+            swapToPreloadedDashboard();
         }
     }
 
@@ -203,11 +232,13 @@
         if (!isPaused) {
             timeLeft--;
             timerDisplay.textContent = timeLeft + 's';
-
-            // Atualiza a barra de progresso
             const progress = ((30 - timeLeft) / 30) * 100;
             progressFill.style.width = progress + '%';
-
+            // 15s antes do fim, inicia preload se ainda não iniciado
+            if (timeLeft === 15 && !preloadStarted) {
+                preloadNextDashboard();
+                preloadStarted = true;
+            }
             if (timeLeft <= 0) {
                 nextDashboard();
             }

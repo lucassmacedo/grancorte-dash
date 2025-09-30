@@ -483,13 +483,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Atualizar relógio
-    function updateClock() {
-        const now = new Date();
-        document.getElementById('current-time').textContent = now.toLocaleString('pt-BR');
-    }
-    setInterval(updateClock, 1000);
-
     // Gráfico de Vendas por Hora
     Chart.register(window.ChartDataLabels);
     const vendasUltimos7Dias = @json($vendas_ultimos_7_dias);
@@ -552,23 +545,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         plugins: [window.ChartDataLabels]
     });
-    // Mantém o tooltip sempre visível no último ponto
-    function showLastTooltip() {
-        const points = chart.getDatasetMeta(0).data;
-        if (points.length) {
-            chart.setActiveElements([
-                {datasetIndex: 0, index: points.length - 1},
-                {datasetIndex: 1, index: points.length - 1}
-            ]);
-            chart.tooltip.setActiveElements([
-                {datasetIndex: 0, index: points.length - 1},
-                {datasetIndex: 1, index: points.length - 1}
-            ], {x: points[points.length - 1].x, y: points[points.length - 1].y});
-            chart.update();
-        }
-    }
-    chart.on('draw', showLastTooltip);
-    showLastTooltip();
 });
 </script>
 </body>
