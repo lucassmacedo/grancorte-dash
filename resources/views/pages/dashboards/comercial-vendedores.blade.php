@@ -236,7 +236,6 @@
 
     .chart-body {
         padding: 2rem;
-        height: 400px;
     }
 
     /* Lista Estilizada */
@@ -292,17 +291,8 @@
 
 <body>
 <div class="dashboard-container">
-    <!-- Header -->
     <div class="tv-header">
-        <h1><i class="fas fa-users-line me-3"></i>FATURAMENTO - VENDEDORES</h1>
-        <div class="subtitle">
-            <span>Dashboard em Tempo Real</span>
-            <div class="live-indicator">
-                <div class="pulse-dot"></div>
-                <span>AO VIVO</span>
-            </div>
-            <span id="current-time">{{ date('d/m/Y H:i:s') }}</span>
-        </div>
+        <h1> Dashboard faturamento</h1>
     </div>
 
     <!-- Métricas Principais -->
@@ -354,12 +344,12 @@
     <!-- Gráficos e Listas -->
     <div class="row g-4 mb-4">
         <!-- Vendas por Hora -->
-        <div class="col-xl-6 col-lg-12">
+        <div class="col-xl-12 col-lg-12">
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title">
                         <i class="fas fa-clock text-primary"></i>
-                        Vendas por Hora do Dia
+                        Faturamento Ult. 7 Dias
                     </h3>
                 </div>
                 <div class="chart-body">
@@ -367,6 +357,10 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <div class="row g-4 mb-4">
 
         <!-- Performance dos Vendedores -->
         <div class="col-xl-6 col-lg-12">
@@ -392,11 +386,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row g-4 mb-4">
         <!-- Top Clientes -->
-        <div class="col-xl-4 col-lg-6">
+        <div class="col-xl-6 col-lg-6">
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title">
@@ -420,24 +411,24 @@
             </div>
         </div>
 
-        <!-- Produtos Mais Vendidos -->
-        <div class="col-xl-4 col-lg-6">
+        <!-- Produtos Mais Vendidos (KG) -->
+        <div class="col-xl-6 col-lg-6">
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title">
                         <i class="fas fa-fire text-danger"></i>
-                        Produtos Mais Vendidos
+                        Produtos Mais Vendidos (KG)
                     </h3>
                 </div>
                 <div class="chart-body">
                     <ul class="styled-list">
-                        @foreach($produtos_mais_vendidos->take(8) as $produto)
+                        @foreach($produtos_mais_vendidos->sortByDesc('quantidade_total')->take(8) as $produto)
                             <li class="styled-list-item">
                                 <div class="list-item-content">
                                     <div class="list-item-title">{{ Str::limit($produto->desc_produto, 50) }}</div>
-                                    <div class="list-item-subtitle">{{ number_format($produto->quantidade_total, 1, ',', '.') }} kg</div>
+                                    <div class="list-item-subtitle"></div>
                                 </div>
-                                <div class="list-item-value">R$ {{ number_format($produto->valor_total, 0, ',', '.') }}</div>
+                                <div class="list-item-value">{{ number_format($produto->quantidade_total, 1, ',', '.') }} kg</div>
                             </li>
                         @endforeach
                     </ul>
@@ -445,24 +436,25 @@
             </div>
         </div>
 
-        <!-- Últimas Vendas -->
-        <div class="col-xl-4 col-lg-12">
+        <!-- Produtos Mais Vendidos (R$) -->
+        <div class="col-xl-6 col-lg-12">
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title">
                         <i class="fas fa-bolt text-info"></i>
-                        Últimas Vendas
+                        Produtos Mais Vendidos (R$)
                     </h3>
                 </div>
                 <div class="chart-body">
                     <ul class="styled-list">
-                        @foreach($ultimas_vendas->take(8) as $venda)
+                        @foreach($produtos_mais_vendidos->sortByDesc('valor_total')->take(8) as $produto)
                             <li class="styled-list-item">
                                 <div class="list-item-content">
-                                    <div class="list-item-title">NF {{ $venda->num_docto }} - {{ $venda->vendedor }}</div>
-                                    <div class="list-item-subtitle">{{ Str::limit($venda->cliente, 50) }} • {{ \Carbon\Carbon::parse($venda->data_mvto)->format('H:i') }}</div>
+                                    <div class="list-item-title">{{ Str::limit($produto->desc_produto, 50) }}</div>
+                                    <div class="list-item-subtitle"></div>
                                 </div>
-                                <div class="list-item-value">R$ {{ number_format($venda->valor_liquido, 0, ',', '.') }}</div>
+                                <div class="list-item-value">R${{ number_format($produto->valor_total, 2, ',', '.') }}</div>
+
                             </li>
                         @endforeach
                     </ul>
@@ -471,43 +463,17 @@
         </div>
     </div>
 
-    @if($vendas_por_area->count() > 0)
-    <div class="row g-4">
-        <!-- Vendas por Área -->
-        <div class="col-xl-6 col-lg-12">
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3 class="chart-title">
-                        <i class="fas fa-map-marked-alt text-purple"></i>
-                        Vendas por Área
-                    </h3>
-                </div>
-                <div class="chart-body">
-                    <canvas id="vendasPorAreaChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tipos de Saída -->
-        <div class="col-xl-6 col-lg-12">
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3 class="chart-title">
-                        <i class="fas fa-shipping-fast text-orange"></i>
-                        Distribuição por Tipo de Saída
-                    </h3>
-                </div>
-                <div class="chart-body">
-                    <canvas id="tiposSaidaChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
+    {{-- Removido: Vendas por Área --}}
+    {{-- @if($vendas_por_area->count() > 0) --}}
+    {{-- Removido: Vendas por Área --}}
+    {{-- @if($vendas_por_area->count() > 0) ... @endif --}}
+    {{-- Removido: dados de áreas --}}
+    {{-- const areasData = @json($vendas_por_area); --}}
 </div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Atualizar relógio
@@ -518,34 +484,44 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateClock, 1000);
 
     // Gráfico de Vendas por Hora
-    const horasData = @json($horas_completas);
+    Chart.register(window.ChartDataLabels);
+    const vendasUltimos7Dias = @json($vendas_ultimos_7_dias);
     const ctxHoras = document.getElementById('vendasPorHoraChart').getContext('2d');
-    new Chart(ctxHoras, {
+    const chart = new Chart(ctxHoras, {
         type: 'line',
         data: {
-            labels: horasData.map(h => h.hora + 'h'),
+            labels: Object.keys(vendasUltimos7Dias),
             datasets: [{
                 label: 'Faturamento (R$)',
-                data: horasData.map(h => h.valor_liquido),
+                data: Object.values(vendasUltimos7Dias).map(v => v.valor_liquido),
                 borderColor: '#667eea',
                 backgroundColor: 'rgba(102, 126, 234, 0.1)',
                 borderWidth: 3,
                 fill: true,
-                tension: 0.4
-            }, {
-                label: 'Notas',
-                data: horasData.map(h => h.notas),
-                borderColor: '#00ff88',
-                backgroundColor: 'rgba(0, 255, 136, 0.1)',
-                borderWidth: 2,
-                yAxisID: 'y1'
+                tension: 0.4,
+                datalabels: {
+                    color: '#fff',
+                    anchor: 'end',
+                    align: 'top',
+                    font: { weight: 'bold', size: 16 },
+                    formatter: function(value) {
+                        return 'R$ ' + Number(value).toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                    }
+                }
             }]
         },
         options: {
-            responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { labels: { color: '#ffffff' } }
+                legend: { labels: { color: '#ffffff' } },
+                tooltip: {
+                    enabled: true,
+                    mode: 'index',
+                    intersect: false
+                },
+                datalabels: {
+                    display: true
+                }
             },
             scales: {
                 y: {
@@ -561,75 +537,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 x: {
                     ticks: { color: '#ffffff' },
-                    grid: { color: 'rgba(255,255,255,0.1)' }
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    offset: true,
+                    padding: 0
                 }
             }
-        }
-    });
-
-    @if($vendas_por_area->count() > 0)
-    // Gráfico de Vendas por Área
-    const areasData = @json($vendas_por_area);
-    const ctxAreas = document.getElementById('vendasPorAreaChart').getContext('2d');
-    new Chart(ctxAreas, {
-        type: 'doughnut',
-        data: {
-            labels: areasData.map(a => a.nome_area),
-            datasets: [{
-                data: areasData.map(a => a.valor_liquido),
-                backgroundColor: [
-                    'rgba(102, 126, 234, 0.8)',
-                    'rgba(118, 75, 162, 0.8)',
-                    'rgba(67, 233, 123, 0.8)',
-                    'rgba(250, 112, 154, 0.8)',
-                    'rgba(79, 172, 254, 0.8)'
-                ]
-            }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { labels: { color: '#ffffff' } }
-            }
-        }
+        plugins: [window.ChartDataLabels]
     });
-
-    // Gráfico de Tipos de Saída
-    const saidasData = @json($tipos_saida);
-    const ctxSaidas = document.getElementById('tiposSaidaChart').getContext('2d');
-    new Chart(ctxSaidas, {
-        type: 'bar',
-        data: {
-            labels: saidasData.map(s => s.nome_saida),
-            datasets: [{
-                label: 'Faturamento (R$)',
-                data: saidasData.map(s => s.valor_liquido),
-                backgroundColor: 'rgba(102, 126, 234, 0.8)',
-                borderColor: '#667eea',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { labels: { color: '#ffffff' } }
-            },
-            scales: {
-                y: {
-                    ticks: { color: '#ffffff' },
-                    grid: { color: 'rgba(255,255,255,0.1)' }
-                },
-                x: {
-                    ticks: { color: '#ffffff' },
-                    grid: { color: 'rgba(255,255,255,0.1)' }
-                }
-            }
+    // Mantém o tooltip sempre visível no último ponto
+    function showLastTooltip() {
+        const points = chart.getDatasetMeta(0).data;
+        if (points.length) {
+            chart.setActiveElements([
+                {datasetIndex: 0, index: points.length - 1},
+                {datasetIndex: 1, index: points.length - 1}
+            ]);
+            chart.tooltip.setActiveElements([
+                {datasetIndex: 0, index: points.length - 1},
+                {datasetIndex: 1, index: points.length - 1}
+            ], {x: points[points.length - 1].x, y: points[points.length - 1].y});
+            chart.update();
         }
-    });
-    @endif
-
+    }
+    chart.on('draw', showLastTooltip);
+    showLastTooltip();
 });
 </script>
 </body>

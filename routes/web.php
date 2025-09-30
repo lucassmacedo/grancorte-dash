@@ -16,7 +16,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Dashboards\EstoqueDashboardController;
 use App\Http\Controllers\Dashboards\LogisticaDashboardController;
 use App\Http\Controllers\Dashboards\ComercialVendedoresDashboardController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Dashboards\ComercialClientesDashboardController;
+use App\Http\Controllers\Dashboards\ComercialProdutosDashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -26,4 +27,7 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/estoque', [EstoqueDashboardController::class, 'index'])->name('dashboard.estoque');
     Route::get('/logistica', [LogisticaDashboardController::class, 'index'])->name('dashboard.logistica');
     Route::get('/comercial-vendedores', [ComercialVendedoresDashboardController::class, 'index'])->name('dashboard.comercial-vendedores');
+
+    Route::get('/comercial-clientes', [ComercialClientesDashboardController::class, 'index'])->name('dashboard.comercial-clientes');
+    Route::get('/comercial-produtos', [ComercialProdutosDashboardController::class, 'index'])->name('dashboard.comercial-produtos');
 });

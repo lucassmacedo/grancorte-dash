@@ -195,6 +195,10 @@ class VendasProdutosController extends Controller
         $grupos = $dashboard->pluck('nome_grupo', 'cod_grupo')->unique()->sort();
 
 
-        return view('pages.relatorios.produtos', compact('dashboard', 'dashboard_geral', 'data', 'cities', 'tipo_saidas','areas','ramo_atividade', 'grupos'));
+        return view('pages.dashboards.comercial-produtos', [
+            'dashboard_geral' => $dashboard_geral,
+            'periodo' => $data['periodo'],
+            // Adicione outros dados necessários
+        ]);
     }
 }

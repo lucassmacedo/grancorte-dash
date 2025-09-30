@@ -50,29 +50,22 @@ class ComercialVendedoresDashboardController extends Controller
             ->whereDate('data_mvto', $data_hoje)
             ->where('cancelada', false)
             ->orderBy('valor_liquido', 'desc')
-            ->take(10)
+            ->take(5)
             ->get();
 
-        // Vendas por hora do dia
-        $vendas_por_hora = ClienteNotas::selectRaw("
-            EXTRACT(HOUR FROM data_mvto) as hora,
-            count(*) as notas,
-            sum(valor_liquido) as valor_liquido")
-            ->whereDate('data_mvto', $data_hoje)
+        // Vendas dos últimos 7 dias
+        $data_inicio = Carbon::today()->subDays(6)->format('Y-m-d');
+        $data_fim = Carbon::today()->format('Y-m-d');
+        $vendas_ultimos_7_dias = ClienteNotas::selectRaw('
+            DATE(data_mvto) as dia,
+            sum(valor_liquido) as valor_liquido
+        ')
+            ->whereBetween('data_mvto', [$data_inicio, $data_fim])
             ->where('cancelada', false)
-            ->groupBy(DB::raw('EXTRACT(HOUR FROM data_mvto)'))
-            ->orderBy('hora')
+            ->groupBy(DB::raw('DATE(data_mvto)'))
+            ->orderBy('dia')
             ->get()
-            ->keyBy('hora');
-
-        // Preencher horas vazias (0-23)
-        $horas_completas = collect(range(0, 23))->map(function ($hora) use ($vendas_por_hora) {
-            return [
-                'hora' => $hora,
-                'notas' => $vendas_por_hora->get($hora)?->notas ?? 0,
-                'valor_liquido' => $vendas_por_hora->get($hora)?->valor_liquido ?? 0,
-            ];
-        });
+            ->keyBy('dia');
 
         // Top clientes do dia
         $top_clientes = ClienteNotas::selectRaw("
@@ -85,7 +78,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->where('cancelada', false)
             ->groupBy('cod_cli_for', 'clientes.nome')
             ->orderBy('valor_liquido', 'desc')
-            ->take(10)
+            ->take(5)
             ->get();
 
         // Produtos mais vendidos (quantidade)
@@ -101,36 +94,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->where('cancelada', false)
             ->groupBy('cod_produto', 'produtos.descricao')
             ->orderBy('quantidade_total', 'desc')
-            ->take(10)
-            ->get();
-
-        // Distribuição por tipo de saída
-        $tipos_saida = ClienteNotasItem::selectRaw("
-            cod_saida,
-            nome_saida,
-            count(*) as quantidade,
-            sum(cliente_notas_items.valor_liquido) as valor_liquido")
-            ->join('cliente_notas', 'cliente_notas_items.id_nota', 'cliente_notas.id')
-            ->whereDate('data_mvto', $data_hoje)
-            ->where('cancelada', false)
-            ->whereNotNull('cod_saida')
-            ->groupBy('cod_saida', 'nome_saida')
-            ->orderBy('valor_liquido', 'desc')
-            ->get();
-
-        // Vendas por área
-        $vendas_por_area = ClienteNotas::selectRaw("
-            cod_area,
-            nome_area,
-            count(*) as notas,
-            sum(valor_liquido) as valor_liquido,
-            count(distinct cliente_notas.cod_vendedor) as vendedores")
-            ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereDate('data_mvto', $data_hoje)
-            ->where('cancelada', false)
-            ->whereNotNull('cod_area')
-            ->groupBy('cod_area', 'nome_area')
-            ->orderBy('valor_liquido', 'desc')
+            ->take(5)
             ->get();
 
         // Últimas vendas (tempo real)
@@ -147,18 +111,16 @@ class ComercialVendedoresDashboardController extends Controller
             ->whereDate('data_mvto', $data_hoje)
             ->where('cancelada', false)
             ->orderBy('data_mvto', 'desc')
-            ->take(15)
+            ->take(5)
             ->get();
 
         return view('pages.dashboards.comercial-vendedores', compact(
             'dashboard_geral',
             'produtos_vendidos',
             'vendedores_performance',
-            'horas_completas',
+            'vendas_ultimos_7_dias',
             'top_clientes',
             'produtos_mais_vendidos',
-            'tipos_saida',
-            'vendas_por_area',
             'ultimas_vendas'
         ));
     }

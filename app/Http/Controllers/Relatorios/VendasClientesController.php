@@ -222,6 +222,10 @@ class VendasClientesController extends Controller
             ->pluck('ramo_atividade', 'cod_ramo');
 
 
-        return view('pages.relatorios.clientes', compact('dashboard', 'dashboard_geral', 'data', 'cities', 'clientes', 'tipo_saidas', 'ramo_atividade', 'areas'));
+        return view('pages.dashboards.comercial-clientes', [
+            'dashboard_geral' => $dashboard_geral,
+            'periodo' => $data['periodo'],
+            // Adicione outros dados necessários
+        ]);
     }
 }

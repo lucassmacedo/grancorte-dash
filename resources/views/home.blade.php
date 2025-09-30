@@ -136,7 +136,8 @@
     // Substitua os URLs abaixo pelos seus dashboards
     const dashboardUrls = [
         '{{ route('dashboard.estoque') }}',
-        '{{ route('dashboard.logistica') }}'
+        '{{ route('dashboard.logistica') }}',
+        '{{ route('dashboard.gcomercial-vendedores') }}',
     ];
 
 
