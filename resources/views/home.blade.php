@@ -137,7 +137,7 @@
     const dashboardUrls = [
         '{{ route('dashboard.estoque') }}',
         '{{ route('dashboard.logistica') }}',
-        '{{ route('dashboard.gcomercial-vendedores') }}',
+        '{{ route('dashboard.comercial-vendedores') }}',
     ];
 
 
