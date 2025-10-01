@@ -409,6 +409,16 @@
             padding: 1rem 2rem 2rem;
             height: 400px;
         }
+        .tv-header .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
         live-indicator {
             display: flex;
             align-items: center;
