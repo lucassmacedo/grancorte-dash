@@ -417,6 +417,13 @@
 <div class="dashboard-container">
     <div class="tv-header">
         <h1>Comercial - Produtos</h1>
+        <div class="subtitle">
+            <span>Dashboard em Tempo Real</span>
+            <div class="live-indicator">
+                <div class="pulse-dot"></div>
+                <span>{{ now()->format('d/m/Y H:i') }}</span>
+            </div>
+        </div>
     </div>
 
     <div class="row g-4 mb-5">
