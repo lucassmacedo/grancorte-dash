@@ -30,7 +30,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 
     Route::get('/comercial-clientes', [ComercialClientesDashboardController::class, 'index'])->name('dashboard.comercial-clientes');
     Route::get('/comercial-produtos', [ComercialProdutosDashboardController::class, 'index'])->name('dashboard.comercial-produtos');
+    Route::get('/pedidos', [\App\Http\Controllers\PedidosDashboardController::class, 'index'])->name('dashboard.pedidos');
 });
 
 Route::get('/proxy-dashboard', [\App\Http\Controllers\ProxyDashboardController::class, 'show'])->name('proxy.dashboard');
-

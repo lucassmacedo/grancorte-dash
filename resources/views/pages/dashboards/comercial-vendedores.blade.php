@@ -292,7 +292,7 @@
 <body>
 <div class="dashboard-container">
     <div class="tv-header">
-        <h1> Dashboard Faturamento</h1>
+        <h1>Faturamento</h1>
         <div class="subtitle">
             <span>Dashboard em Tempo Real</span>
             <div class="live-indicator">

@@ -131,6 +131,8 @@
     <div class="indicator" onclick="goToDashboard(1)"></div>
     <div class="indicator" onclick="goToDashboard(2)"></div>
     <div class="indicator" onclick="goToDashboard(3)"></div>
+    <div class="indicator" onclick="goToDashboard(4)"></div>
+    <div class="indicator" onclick="goToDashboard(5)"></div>
     <span class="timer"></span>
     <button onclick="togglePause()">Pausar</button>
 </div>
@@ -141,6 +143,8 @@
         '{{ route('dashboard.estoque') }}',
         '{{ route('dashboard.logistica') }}',
         '{{ route('dashboard.comercial-vendedores') }}',
+        '{{ route('dashboard.comercial-produtos') }}',
+        '{{ route('dashboard.comercial-clientes') }}',
         '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php'
     ];
 

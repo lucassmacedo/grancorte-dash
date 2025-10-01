@@ -339,7 +339,7 @@
 
 <div class="dashboard-container">
     <div class="tv-header">
-        <h1>Dashboard Logística</h1>
+        <h1>Logística</h1>
         <div class="subtitle">
             <span>Dashboard em Tempo Real</span>
             <div class="live-indicator">

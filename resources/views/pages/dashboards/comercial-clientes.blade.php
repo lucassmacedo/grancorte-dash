@@ -417,7 +417,7 @@
 
 <div class="dashboard-container">
     <div class="tv-header">
-        <h1>Dashboard Comercial - Clientes</h1>
+        <h1>Comercial - Clientes</h1>
 
     </div>
     <div class="row g-4 mb-5">
