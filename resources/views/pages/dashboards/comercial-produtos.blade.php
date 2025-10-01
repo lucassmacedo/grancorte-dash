@@ -409,6 +409,35 @@
             padding: 1rem 2rem 2rem;
             height: 400px;
         }
+        live-indicator {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            background: rgba(0, 255, 136, .2);
+            padding: .5rem 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 255, 136, .3);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--glow-secondary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px var(--glow-secondary);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+            50% {
+                opacity: .5;
+                transform: scale(1.2)
+            }
+        }
     </style>
 </head>
 
