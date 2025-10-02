@@ -483,7 +483,7 @@
         <div class="col-xl col-lg-4 col-md-6">
             <div class="metric-card">
                 <div class="metric-icon"><i class="fas fa-drumstick-bite"></i></div>
-                <div class="metric-value">{{ number_format($dashboard['total_carcacas_vendidas'] ?? 0) }}</div>
+                <div class="metric-value">{{ number_format($dashboard['total_carcacas_vendidas'] ?? 0,0,'.','.') }}</div>
                 <div class="metric-label">Carcaças Vendidas</div>
             </div>
         </div>
