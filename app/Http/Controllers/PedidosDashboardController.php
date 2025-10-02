@@ -22,9 +22,9 @@ class PedidosDashboardController extends Controller
                 SUM(CASE WHEN status <> 4 THEN peso_total ELSE 0 END) as total_kg_pedidos,
                 SUM(CASE WHEN status IN (0,1,2) THEN valor_total ELSE 0 END) as previsao_faturamento,
                 SUM(CASE WHEN status IN (0,1) THEN 1 ELSE 0 END) as abertos,
-                SUM(CASE WHEN status IN (0,1) THEN 1 ELSE 0 END) as cancelados,
+                SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) as cancelados,
                 SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as baixados,
-                SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as bloqueados,
+                SUM(CASE WHEN status = 1 and faturado = false THEN 1 ELSE 0 END) as bloqueados,
                 SUM(CASE WHEN status = 2 and faturado = true THEN 1 ELSE 0 END) as faturados
                 ')
             ->first();
