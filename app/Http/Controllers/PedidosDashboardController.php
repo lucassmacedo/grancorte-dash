@@ -12,7 +12,7 @@ class PedidosDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $hoje            = now()->toDateString();
+        $hoje            = now()->addDay()->toDateString();
         $statusCancelado = \App\Models\Pedido::STATUS_CANCELADO;
 
         // Consulta única para totais e métricas simples
