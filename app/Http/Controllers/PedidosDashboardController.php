@@ -71,6 +71,23 @@ class PedidosDashboardController extends Controller
             })
             ->sum('pedido_items.quantidade');
 
+        // Top 10 Pedidos por Rota (não cancelados)
+        $top_pedidos_por_rota = \App\Models\Pedido::whereDate('data_entrega', $hoje)
+            ->where('pedidos.status', '!=', $statusCancelado)
+            ->join('clientes', 'clientes.codigo', '=', 'pedidos.codigo_cliente')
+            ->join('logistica_rotas', 'logistica_rotas.id', '=', 'clientes.rota_id')
+            ->select(
+                'clientes.rota_id',
+                'logistica_rotas.codigo',
+                'logistica_rotas.nome as rota_nome',
+                DB::raw('SUM(pedidos.valor_total) as total'),
+                DB::raw('COUNT(pedidos.id) as qtd_pedidos')
+            )
+            ->groupBy('clientes.rota_id', 'logistica_rotas.codigo','logistica_rotas.nome')
+            ->orderByDesc('total')
+            ->limit(10)
+            ->get();
+
         $dashboard = [
             'total_pedidos'              => $totais->total_pedidos ?? 0,
             'total_kg_pedidos'           => $totais->total_kg_pedidos ?? 0,
@@ -84,6 +101,7 @@ class PedidosDashboardController extends Controller
             'ranking_vendedores_valor'   => $ranking_vendedores_valor,
             'ranking_vendedores_carcaca' => $ranking_vendedores_carcaca,
             'total_carcacas_vendidas'    => $total_carcacas_vendidas,
+            'top_pedidos_por_rota'       => $top_pedidos_por_rota,
         ];
 
         return view('pages.dashboards.pedidos', compact('dashboard'));

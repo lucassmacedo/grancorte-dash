@@ -190,7 +190,6 @@
 
         .metric-icon i {
             font-size: 3rem;
-
         }
 
         .metric-icon {
@@ -265,7 +264,7 @@
 
         /* Table Styles */
         .table-container {
-            max-height: 400px;
+            max-height: 550px;
             overflow-y: auto;
             padding: 1rem;
         }
@@ -434,11 +433,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Chart container */
-        .chart-content {
-            padding: 1rem 2rem 2rem;
-            height: 400px;
-        }
     </style>
 </head>
 
@@ -527,19 +521,19 @@
         </div>
     </div>
     <!-- Evolução de Vendas -->
-    <div class="row g-4 mb-5"   >
-{{--        <div class="col-xl-6 col-lg-6">--}}
-{{--            <div class="chart-card">--}}
-{{--                <div class="chart-header">--}}
-{{--                    <h3 class="chart-title"><i class="fas fa-chart-line"></i> Evolução de Vendas (7 dias)</h3>--}}
-{{--                </div>--}}
-{{--                <div class="chart-content">--}}
-{{--                    <canvas id="evolucaoVendasChart"></canvas>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+    <div class="row g-4 mb-5">
+        {{--        <div class="col-xl-6 col-lg-6">--}}
+        {{--            <div class="chart-card">--}}
+        {{--                <div class="chart-header">--}}
+        {{--                    <h3 class="chart-title"><i class="fas fa-chart-line"></i> Evolução de Vendas (7 dias)</h3>--}}
+        {{--                </div>--}}
+        {{--                <div class="chart-content">--}}
+        {{--                    <canvas id="evolucaoVendasChart"></canvas>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
         <!-- Ranking Vendedores Valor -->
-        <div class="col-xl-6 col-lg-6">
+        <div class="col-xl-4 col-lg-4">
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title"><i class="fas fa-trophy"></i> Top 10 Vendedores (Valor)</h3>
@@ -566,7 +560,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-6 col-lg-6">
+        <div class="col-xl-4 col-lg-4">
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title"><i class="fas fa-drumstick-bite"></i> Top 10 Vendedores (Carcaça)</h3>
@@ -586,6 +580,33 @@
                                 <td>{{ $vendedor->codigo_vendedor }} - {{ $vendedor->vendedor }}</td>
                                 <td>R$ {{ number_format($vendedor->total, 2, ',', '.') }}</td>
                                 <td>{{ number_format($vendedor->qtd, 0, ',', '.') }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title"><i class="fas fa-route"></i> Top 10 Pedidos por Rota</h3>
+                </div>
+                <div class="table-container">
+                    <table class="elegant-table">
+                        <thead>
+                        <tr>
+                            <th>Rota</th>
+                            <th>Total Vendido</th>
+                            <th>QTD Pedidos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($dashboard['top_pedidos_por_rota'] as $rota)
+                            <tr>
+                                <td>{{ $rota->codigo }} - {{ $rota->rota_nome }}</td>
+                                <td>R$ {{ number_format($rota->total, 2, ',', '.') }}</td>
+                                <td>{{ number_format($rota->qtd_pedidos, 0, ',', '.') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
