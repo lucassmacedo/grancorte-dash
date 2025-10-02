@@ -142,9 +142,10 @@
     const dashboardUrls = [
         '{{ route('dashboard.estoque') }}',
         '{{ route('dashboard.logistica') }}',
-        '{{ route('dashboard.comercial-vendedores') }}',
-        '{{ route('dashboard.comercial-produtos') }}',
-        '{{ route('dashboard.comercial-clientes') }}',
+        '{{ route('dashboard.vendedores') }}',
+        '{{ route('dashboard.produtos') }}',
+        '{{ route('dashboard.clientes') }}',
+        '{{ route('dashboard.pedidos') }}',
         '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php'
     ];
 

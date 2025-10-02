@@ -26,10 +26,9 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/estoque', [EstoqueDashboardController::class, 'index'])->name('dashboard.estoque');
     Route::get('/logistica', [LogisticaDashboardController::class, 'index'])->name('dashboard.logistica');
-    Route::get('/comercial-vendedores', [ComercialVendedoresDashboardController::class, 'index'])->name('dashboard.comercial-vendedores');
-
-    Route::get('/comercial-clientes', [ComercialClientesDashboardController::class, 'index'])->name('dashboard.comercial-clientes');
-    Route::get('/comercial-produtos', [ComercialProdutosDashboardController::class, 'index'])->name('dashboard.comercial-produtos');
+    Route::get('/vendedores', [ComercialVendedoresDashboardController::class, 'index'])->name('dashboard.vendedores');
+    Route::get('/clientes', [ComercialClientesDashboardController::class, 'index'])->name('dashboard.clientes');
+    Route::get('/produtos', [ComercialProdutosDashboardController::class, 'index'])->name('dashboard.produtos');
     Route::get('/pedidos', [\App\Http\Controllers\PedidosDashboardController::class, 'index'])->name('dashboard.pedidos');
 });
 
