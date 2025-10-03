@@ -379,6 +379,9 @@
             padding: 1rem 2rem 2rem;
             height: 400px;
         }
+        .tv-header .subtitle span{
+            display: none;
+        }
         .tv-header .subtitle {
             font-size: 1.9rem;
             color: var(--text-secondary);
