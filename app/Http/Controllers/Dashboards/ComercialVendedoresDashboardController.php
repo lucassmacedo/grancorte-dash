@@ -55,19 +55,23 @@ class ComercialVendedoresDashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Vendas dos últimos 7 dias (corrigido para PostgreSQL e sintaxe PHP)
-        $inicio_7dias = Carbon::today()->subDays(6)->setTime(0, 0, 0);
-        $fim_7dias    = Carbon::today()->setTime(23, 59, 59);
+        // Vendas dos últimos 7 dias (corrigido para PostgreSQL e sintaxe PHP, agrupando por dia das 20h às 20h)
+        $inicio_7dias = Carbon::today()->subDays(6)->setTime(20, 0, 0); // 6 dias atrás às 20h
+        $fim_7dias    = Carbon::today()->addDay()->setTime(20, 0, 0);   // hoje às 20h
 
-        $vendas_ultimos_7_dias = ClienteNotas::selectRaw(
-            "DATE(data_mvto || ' ' || hora) as dia, sum(valor_liquido) as valor_liquido"
+        $vendas_ultimos_7_dias = ClienteNotas::selectRaw('
+            CASE 
+                WHEN hora >= \'20:00:00\' THEN (data_mvto::date + INTERVAL \'1 day\')
+                ELSE data_mvto::date
+            END as dia_referencia, 
+            sum(valor_liquido) as valor_liquido'
         )
-            ->whereRaw("(data_mvto || ' ' || hora) BETWEEN ? AND ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
+            ->whereRaw("(data_mvto || ' ' || hora) >= ? AND (data_mvto || ' ' || hora) < ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->groupBy(DB::raw("DATE(data_mvto || ' ' || hora)"))
-            ->orderBy('dia')
+            ->groupBy(DB::raw("CASE WHEN hora >= '20:00:00' THEN (data_mvto::date + INTERVAL '1 day') ELSE data_mvto::date END"))
+            ->orderBy('dia_referencia')
             ->get()
-            ->keyBy('dia');
+            ->keyBy('dia_referencia');
 
         // Top clientes do dia
         $top_clientes = ClienteNotas::selectRaw("
