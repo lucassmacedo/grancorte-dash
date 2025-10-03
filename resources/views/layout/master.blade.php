@@ -133,7 +133,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -166,6 +166,7 @@
 
         .metric-icon i {
             font-size: 2rem;
+            display: none;
 
         }
 
@@ -180,7 +181,7 @@
         }
 
         .metric-value {
-            font-size: 2.7rem;
+            font-size: 3rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
             background: linear-gradient(45deg, #fff, var(--glow-primary));
@@ -190,7 +191,7 @@
         }
 
         .metric-label {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--text-secondary);
             font-weight: 700;
             text-transform: uppercase;
