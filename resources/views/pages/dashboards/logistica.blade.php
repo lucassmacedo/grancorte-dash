@@ -5,8 +5,8 @@
         <div class="tv-header">
             <h1>Logística</h1>
             <div class="subtitle">
-                <span>Dashboard em Tempo Real</span>
-                <div class="live-indicator position-absolute" style="right: 1%">
+{{--                <span>Dashboard em Tempo Real</span>--}}
+                <div class="live-indicator position-absolute" style="right: 1%;top:40px">
                     <div class="pulse-dot"></div>
                     <span>{{ now()->format('d/m/Y H:i') }}</span>
                 </div>
