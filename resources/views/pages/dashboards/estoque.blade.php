@@ -9,7 +9,7 @@
             </h1>
             <div class="subtitle">
                 <span>Dashboard em Tempo Real</span>
-                <div class="live-indicator">
+                <div class="live-indicator position-absolute" style="right: 1%">
                     <div class="pulse-dot"></div>
                     <span>{{ now()->format('d/m/Y H:i') }}</span>
                 </div>

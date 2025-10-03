@@ -165,7 +165,7 @@
         }
 
         .metric-icon i {
-            font-size: 3rem;
+            font-size: 2rem;
 
         }
 
@@ -379,7 +379,7 @@
             height: 400px;
         }
         .tv-header .subtitle {
-            font-size: 1.7rem;
+            font-size: 1.9rem;
             color: var(--text-secondary);
             font-weight: 400;
             display: flex;
