@@ -71,6 +71,10 @@ class ComercialVendedoresDashboardController extends Controller
             ->groupBy(DB::raw("CASE WHEN hora >= '20:00:00' THEN (data_mvto::date + INTERVAL '1 day') ELSE data_mvto::date END"))
             ->orderBy('dia_referencia')
             ->get()
+            ->map(function ($item) {
+                $item->dia_referencia = Carbon::parse($item->dia_referencia)->format('d/m');
+                return $item;
+            })
             ->keyBy('dia_referencia');
 
         // Top clientes do dia

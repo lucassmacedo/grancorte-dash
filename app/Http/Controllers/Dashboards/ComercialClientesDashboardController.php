@@ -70,7 +70,7 @@ class ComercialClientesDashboardController extends Controller
             ->where('cancelada', false)
             ->groupByRaw("unaccent(upper(cidade || ' - ' || uf))")
             ->orderByDesc('valor_liquido')
-            ->take(5)
+            ->take(20)
             ->get();
 
         return view('pages.dashboards.comercial-clientes', compact(

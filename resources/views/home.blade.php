@@ -113,6 +113,12 @@
         button.paused {
             background: #f44336;
         }
+
+        @if(request()->has('tv'))
+        .controls {
+            display: none;
+        }
+        @endif
     </style>
 </head>
 <body>
@@ -146,7 +152,8 @@
         '{{ route('dashboard.produtos') }}',
         '{{ route('dashboard.clientes') }}',
         '{{ route('dashboard.pedidos') }}',
-        '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php'
+        '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php',
+        '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/status_area_limpa.php'
     ];
 
     const iframe = document.getElementById('currentDashboard');

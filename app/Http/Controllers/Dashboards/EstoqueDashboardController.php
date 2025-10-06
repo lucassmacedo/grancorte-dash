@@ -43,7 +43,7 @@ class EstoqueDashboardController extends Controller
                 'saldo_venda'         => $items->sum('SALDO_DISPONIVEL_VENDA_KG')
             ];
         })->sortByDesc('saldo_total')
-            ->take(15);// Ordenar por saldo total (maior para menor)
+            ->take(5);// Ordenar por saldo total (maior para menor)
         // Dados por tipo de conservação
         $conservacao = $estoque->groupBy('TIPO_CONSERVACAO')->map(function ($items, $tipo) {
             return [
@@ -66,10 +66,10 @@ class EstoqueDashboardController extends Controller
         })->sortByDesc('saldo_total');
 
         // Top produtos com maior estoque
-        $top_produtos = $estoque->sortByDesc('SALDO_TOTAL')->take(10)->map(function ($item) {
+        $top_produtos = $estoque->sortByDesc('SALDO_TOTAL')->take(5)->map(function ($item) {
             return [
                 'codigo'           => $item->COD_PRODUTO,
-                'descricao'        => substr($item->DESC_PRODUTO ?? '', 0, 40) . '...',
+                'descricao'        => $item->DESC_PRODUTO,
                 'grupo'            => $item->GRUPO_ESTOQUE,
                 'saldo_total'      => $item->SALDO_TOTAL,
                 'saldo_tunel'      => $item->SALDO_TUNEL,
@@ -78,19 +78,7 @@ class EstoqueDashboardController extends Controller
             ];
         });
 
-        // Produtos com estoque baixo (menos de 10kg)
-        $estoque_baixo = $estoque->where('SALDO_TOTAL', '>', 0)
-            ->where('SALDO_TOTAL', '<', 10)
-            ->sortBy('SALDO_TOTAL')
-            ->take(10)
-            ->map(function ($item) {
-                return [
-                    'codigo'      => $item->COD_PRODUTO,
-                    'descricao'   => substr($item->DESC_PRODUTO ?? '', 0, 35) . '...',
-                    'saldo_total' => $item->SALDO_TOTAL,
-                    'grupo'       => $item->GRUPO_ESTOQUE,
-                ];
-            });
+
 
         // Distribuição túnel vs disponível
         $distribuicao = [
@@ -104,7 +92,6 @@ class EstoqueDashboardController extends Controller
             'conservacao',
             'locais',
             'top_produtos',
-            'estoque_baixo',
             'distribuicao'
         ));
     }

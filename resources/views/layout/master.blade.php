@@ -191,10 +191,10 @@
         }
 
         .metric-label {
-            font-size: 2rem;
+            font-size: 2.1rem;
             color: var(--text-secondary);
             font-weight: 700;
-            text-transform: uppercase;
+            /*text-transform: uppercase;*/
             letter-spacing: 0.5px;
         }
 
@@ -461,7 +461,7 @@
             padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, .1);
             color: var(--text-primary);
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             font-weight: 400;
             transition: background .3s ease;
         }

@@ -59,16 +59,16 @@
                         <thead>
                         <tr>
                             <th>Cliente</th>
-                            <th>Notas</th>
-                            <th>Valor Líquido</th>
+                            <th class="text-center">Notas</th>
+                            <th class="text-center">Valor Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($clientes_performance as $cliente)
                             <tr>
-                                <td>{{ $cliente->cliente }}</td>
-                                <td>{{ $cliente->notas }}</td>
-                                <td>R$ {{ number_format($cliente->valor_liquido, 2, ',', '.') }}</td>
+                                <td class="fs-1">{{ $cliente->cliente }}</td>
+                                <td class="text-center" class="fs-1">{{ $cliente->notas }}</td>
+                                <td class="fs-1 text-center">R$ {{ number_format($cliente->valor_liquido, 2, ',', '.') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -91,16 +91,16 @@
                         <thead>
                         <tr>
                             <th>Ramo de Atividade</th>
-                            <th>Notas</th>
-                            <th>Valor Líquido</th>
+                            <th class="text-center">Notas</th>
+                            <th class="text-center">Valor Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($top_ramo_atividade as $ramo)
                             <tr>
                                 <td>{{ $ramo->ramo_atividade }}</td>
-                                <td>{{ $cliente->notas }}</td>
-                                <td>R$ {{ number_format($ramo->valor_liquido, 2, ',', '.') }}</td>
+                                <td class="text-center">{{ $cliente->notas }}</td>
+                                <td class="text-center">R$ {{ number_format($ramo->valor_liquido, 2, ',', '.') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -123,16 +123,16 @@
                         <thead>
                         <tr>
                             <th>Área</th>
-                            <th>Notas</th>
-                            <th>Valor Líquido</th>
+                            <th class="text-center">Notas</th>
+                            <th class="text-center">Valor Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($top_areas as $area)
                             <tr>
                                 <td>{{ $area->nome_area }}</td>
-                                <td>{{ $cliente->notas }}</td>
-                                <td>R$ {{ number_format($area->valor_liquido, 2, ',', '.') }}</td>
+                                <td class="text-center">{{ $cliente->notas }}</td>
+                                <td class="text-center">R$ {{ number_format($area->valor_liquido, 2, ',', '.') }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -147,7 +147,7 @@
                 <div class="chart-header">
                     <h1 class="chart-title">
                         <i class="fas fa-city"></i>
-                        Top 5 Cidades
+                        Top 20 Cidades
                     </h1>
                 </div>
                 <div class="table-container">
@@ -155,16 +155,16 @@
                         <thead>
                         <tr>
                             <th>Cidade</th>
-                            <th>Notas</th>
-                            <th>Valor Líquido</th>
+                            <th class="text-center">Notas</th>
+                            <th class="text-center">Valor Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($top_cidades as $cidade)
                             <tr>
                                 <td>{{ $cidade->cidade }}</td>
-                                <td>{{ $cidade->notas }}</td>
-                                <td>R$ {{ number_format($cidade->valor_liquido, 2, ',', '.') }}</td>
+                                <td class="text-center">{{ $cidade->notas }}</td>
+                                <td class="text-center">R$ {{ number_format($cidade->valor_liquido, 2, ',', '.') }}</td>
                             </tr>
                         @endforeach
                         </tbody>

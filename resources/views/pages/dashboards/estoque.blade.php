@@ -63,7 +63,7 @@
         <div class="row g-4">
 
             <!-- Top Produtos -->
-            <div class="col-xl-7 col-lg-6">
+            <div class="col-xl-6 col-lg-6">
                 <div class="chart-card">
                     <div class="chart-header">
                         <h1 class="chart-title">
@@ -77,7 +77,6 @@
                             <tr>
                                 <th>Código</th>
                                 <th>Produto</th>
-                                <th>Grupo</th>
                                 <th style="text-align: right;">Estoque (KG)</th>
                             </tr>
                             </thead>
@@ -86,7 +85,6 @@
                                 <tr>
                                     <td><span class="badge-elegant">{{ $produto['codigo'] ?? '' }}</span></td>
                                     <td>{{ Str::limit($produto['descricao'] ?? '', 90) }}</td>
-                                    <td><span class="badge-elegant badge-primary">{{ $produto['grupo'] ?? '' }}</span></td>
                                     <td style="text-align: right; font-weight: 600;">{{ number_format($produto['saldo_total'] ?? 0, 2, ',', '.') }}</td>
                                 </tr>
                             @empty
@@ -101,7 +99,7 @@
             </div>
 
             <!-- Estoque por Local -->
-            <div class="col-xl-5 col-lg-6">
+            <div class="col-xl-6 col-lg-6">
                 <div class="chart-card">
                     <div class="chart-header">
                         <h1 class="chart-title">

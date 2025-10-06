@@ -18,7 +18,7 @@
                 <div class="metric-card">
                     <div class="metric-icon"><i class="fas fa-receipt"></i></div>
                     <div class="metric-value" id="total-produtos">{{ $dashboard_geral->notas ?? '-' }}</div>
-                    <div class="metric-label">Total de Notas</div>
+                    <div class="metric-label">Notas Faturadas</div>
                 </div>
             </div>
             <div class="col-xl col-lg-3 col-md-6">
@@ -27,7 +27,7 @@
                         <i class="fas fa-boxes"></i>
                     </div>
                     <div class="metric-value" id="total-produtos">{{ $produtos_vendidos->produtos }}</div>
-                    <div class="metric-label">Total de Produtos</div>
+                    <div class="metric-label">Clientes Atendidos</div>
                 </div>
             </div>
 
@@ -41,14 +41,14 @@
             <div class="col-xl col-md-3 col-sm-6">
                 <div class="metric-card">
                     <div class="metric-icon"><i class="fas fa-calculator"></i></div>
-                    <div class="metric-value " id="valor-medio">R$ {{ number_format($dashboard_geral->valor_medio ?? 0, 2, ',', '.') }}</div>
+                    <div class="metric-value ">R$ {{ number_format($dashboard_geral->valor_medio ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Ticket Médio</div>
                 </div>
             </div>
             <div class="col-xl col-md-3 col-sm-6">
                 <div class="metric-card">
                     <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
-                    <div class="metric-value " id="valor-total">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
+                    <div class="metric-value ">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Faturamento</div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     <div class="chart-header">
                         <h1 class="chart-title">
                             <i class="fas fa-trophy"></i>
-                            Top 10 Produtos
+                            Top 5 Produtos
                         </h1>
                     </div>
                     <div class="table-container">
@@ -97,7 +97,7 @@
                     <div class="chart-header">
                         <h1 class="chart-title">
                             <i class="fas fa-trophy"></i>
-                            Produtos Mais Vendidos (Quantidade)
+                            Top 5 Produtos Mais Vendidos (Quantidade)
                         </h1>
                     </div>
                     <div class="table-container">
