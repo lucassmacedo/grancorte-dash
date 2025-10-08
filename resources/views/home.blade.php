@@ -132,29 +132,61 @@
     <iframe id="preloadDashboard" style="display:none;"></iframe>
 </div>
 
-<div class="controls">
-    <div class="indicator active" onclick="goToDashboard(0)"></div>
-    <div class="indicator" onclick="goToDashboard(1)"></div>
-    <div class="indicator" onclick="goToDashboard(2)"></div>
-    <div class="indicator" onclick="goToDashboard(3)"></div>
-    <div class="indicator" onclick="goToDashboard(4)"></div>
-    <div class="indicator" onclick="goToDashboard(5)"></div>
-    <span class="timer"></span>
-    <button onclick="togglePause()">Pausar</button>
+<div class="controls" id="controls">
 </div>
 
 <script>
     // Substitua os URLs abaixo pelos seus dashboards
-    const dashboardUrls = [
-        '{{ route('dashboard.estoque') }}',
-        '{{ route('dashboard.logistica') }}',
-        '{{ route('dashboard.vendedores') }}',
-        '{{ route('dashboard.produtos') }}',
-        '{{ route('dashboard.clientes') }}',
-        '{{ route('dashboard.pedidos') }}',
-        '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php',
-        '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/status_area_limpa.php'
+    const dashboardConfigsRaw = [
+        {url: '{{ route('dashboard.estoque') }}', tempo: 30},
+        {url: '{{ route('dashboard.logistica') }}', tempo: 30},
+        {url: '{{ route('dashboard.vendedores') }}', tempo: 30},
+        {url: '{{ route('dashboard.produtos') }}', tempo: 30},
+        {url: '{{ route('dashboard.clientes') }}', tempo: 30},
+        {url: '{{ route('dashboard.pedidos') }}', tempo: 60, periodo: {inicio: 10, fim: 22}},
+        {url: '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php', tempo: 60},
+        {url: '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/status_area_limpa.php', tempo: 10}
     ];
+
+    function isPeriodoPermitido(periodo) {
+        if (!periodo) return true;
+        const agora = new Date();
+        const hora = agora.getHours();
+        return hora >= periodo.inicio && hora < periodo.fim;
+    }
+
+    // Filtra dashboards pelo período permitido
+    const dashboardConfigs = dashboardConfigsRaw.filter(cfg => isPeriodoPermitido(cfg.periodo));
+
+    // Renderiza indicadores dinamicamente
+    function renderIndicators(activeIndex = 0) {
+        const indicatorsContainer = document.getElementById('controls');
+        indicatorsContainer.innerHTML = '';
+
+        // Cria os indicadores
+        dashboardConfigs.forEach((cfg, i) => {
+            const div = document.createElement('div');
+            div.className = 'indicator' + (i === activeIndex ? ' active' : '');
+            div.onclick = function () {
+                goToDashboard(i);
+            };
+            indicatorsContainer.appendChild(div);
+        });
+
+        // Cria o timer
+        const timer = document.createElement('span');
+        timer.className = 'timer';
+        timer.textContent = '0s';
+        indicatorsContainer.appendChild(timer);
+
+        // Cria o botão
+        const button = document.createElement('button');
+        button.textContent = 'Pausar';
+        button.onclick = togglePause;
+        indicatorsContainer.appendChild(button);
+    }
+
+    renderIndicators();
 
     const iframe = document.getElementById('currentDashboard');
     const preloadIframe = document.getElementById('preloadDashboard');
@@ -165,7 +197,7 @@
     const progressFill = document.getElementById('progressFill');
 
     let currentIndex = 0;
-    let timeLeft = 30;
+    let timeLeft = dashboardConfigs[0]?.tempo || 0;
     let isPaused = false;
     let interval;
     let preloadStarted = false;
@@ -176,17 +208,17 @@
     }
 
     function loadDashboard(index) {
+        if (!dashboardConfigs[index]) return;
         loading.classList.add('show');
         iframe.style.opacity = '0';
         clearInterval(interval);
         preloadStarted = false;
 
-        // Carrega o dashboard atual
-        iframe.src = dashboardUrls[index];
+        iframe.src = dashboardConfigs[index].url;
         iframe.onload = () => {
             loading.classList.remove('show');
             iframe.style.opacity = '1';
-            timeLeft = 30;
+            timeLeft = dashboardConfigs[index].tempo;
             timerDisplay.textContent = timeLeft + 's';
             progressFill.style.width = '0%';
             startTimer();
@@ -200,8 +232,9 @@
     }
 
     function preloadNextDashboard() {
-        const nextIndex = (currentIndex + 1) % dashboardUrls.length;
-        preloadIframe.src = dashboardUrls[nextIndex];
+        const nextIndex = (currentIndex + 1) % dashboardConfigs.length;
+        if (!dashboardConfigs[nextIndex]) return;
+        preloadIframe.src = dashboardConfigs[nextIndex].url;
     }
 
     function swapToPreloadedDashboard() {
@@ -209,15 +242,14 @@
         iframe.src = preloadIframe.src;
         preloadIframe.src = '';
         preloadStarted = false;
-        currentIndex = (currentIndex + 1) % dashboardUrls.length;
+        currentIndex = (currentIndex + 1) % dashboardConfigs.length;
         indicators.forEach((ind, i) => {
             ind.classList.toggle('active', i === currentIndex);
         });
-        // Quando o novo iframe carregar, reinicia o timer
         iframe.onload = () => {
             loading.classList.remove('show');
             iframe.style.opacity = '1';
-            timeLeft = 30;
+            timeLeft = dashboardConfigs[currentIndex].tempo;
             timerDisplay.textContent = timeLeft + 's';
             progressFill.style.width = '0%';
             startTimer();
@@ -244,10 +276,9 @@
         if (!isPaused) {
             timeLeft--;
             timerDisplay.textContent = timeLeft + 's';
-            const progress = ((30 - timeLeft) / 30) * 100;
+            const progress = ((dashboardConfigs[currentIndex].tempo - timeLeft) / dashboardConfigs[currentIndex].tempo) * 100;
             progressFill.style.width = progress + '%';
-            // 15s antes do fim, inicia preload se ainda não iniciado
-            if (timeLeft === 15 && !preloadStarted) {
+            if (timeLeft === Math.floor(dashboardConfigs[currentIndex].tempo / 2) && !preloadStarted) {
                 preloadNextDashboard();
                 preloadStarted = true;
             }
@@ -258,7 +289,12 @@
     }
 
     // Carrega o primeiro dashboard
-    loadDashboard(0);
+    if (dashboardConfigs.length > 0) {
+        loadDashboard(0);
+    } else {
+        loading.textContent = 'Nenhum dashboard disponível neste horário.';
+        loading.classList.add('show');
+    }
 </script>
 </body>
 </html>
