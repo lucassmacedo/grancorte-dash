@@ -17,42 +17,42 @@
             <div class="row g-4">
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+
                         <div id="metric-cargas" class="metric-value">{{ number_format($metricas['cargas'] ?? 0, 0, ',', '.') }}</div>
                         <div class="metric-label">Cargas</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-file-invoice"></i></div>
+
                         <div id="metric-total-notas" class="metric-value">{{ number_format($metricas['total_notas'] ?? 0, 0, ',', '.') }}</div>
                         <div class="metric-label">Notas do Dia</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-circle-check"></i></div>
+
                         <div id="metric-entregues" class="metric-value">{{ number_format($metricas['entregues'] ?? 0, 0, ',', '.') }}</div>
                         <div class="metric-label">Entregues</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-route"></i></div>
+
                         <div id="metric-andamento" class="metric-value">{{ number_format($metricas['andamento'] ?? 0, 0, ',', '.') }}</div>
                         <div class="metric-label">Em Andamento</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+
                         <div id="metric-problemas" class="metric-value">{{ number_format($metricas['problemas'] ?? 0, 0, ',', '.') }}</div>
                         <div class="metric-label">Problemas</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 col-xl-2">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-percent"></i></div>
+
                         <div id="metric-percentual" class="metric-value">{{ number_format($metricas['percentual_ok'] ?? 0, 1, ',', '.') }}%</div>
                         <div class="metric-label">Concluído</div>
                     </div>
@@ -97,21 +97,21 @@
             <div class="row g-4 mt-1">
                 <div class="col-12 col-md-4">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-regular fa-clock"></i></div>
+
                         <div class="metric-value">{{ $metricas['tempo_medio_aguardando_fmt'] ?? '00:00' }}</div>
                         <div class="metric-label">Tempo Médio Aguardando</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-dolly"></i></div>
+
                         <div class="metric-value">{{ $metricas['tempo_medio_descarrego_fmt'] ?? '00:00' }}</div>
                         <div class="metric-label">Tempo Médio Descarregamento</div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="metric-card">
-                        <div class="metric-icon"><i class="fa-solid fa-route"></i></div>
+
                         <div class="metric-value">{{ $metricas['tempo_medio_trajeto_fmt'] ?? '00:00' }}</div>
                         <div class="metric-label">Tempo Médio Trajeto</div>
                     </div>

@@ -17,42 +17,42 @@
         <div class="row g-4 mb-4">
             <div class="col-lg col-md-4 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-receipt"></i></div>
+
                     <div class="metric-value" id="total-notas">{{ $dashboard_geral->notas }}</div>
                     <div class="metric-label">Notas Faturadas</div>
                 </div>
             </div>
             <div class="col-lg col-md-4 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-users"></i></div>
+
                     <div class="metric-value" id="total-clientes">{{ $dashboard_geral->clientes  }}</div>
                     <div class="metric-label">Clientes Atendidos</div>
                 </div>
             </div>
             <div class="col-lg col-md-4 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-user-tie"></i></div>
+
                     <div class="metric-value" id="vendedores-ativos">{{ $dashboard_geral->vendedores_ativos }}</div>
                     <div class="metric-label">Vendedores</div>
                 </div>
             </div>
             <div class="col-lg col-md-4 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-box"></i></div>
+
                     <div class="metric-value" id="produtos-vendidos">{{ $produtos_vendidos->produtos }}</div>
                     <div class="metric-label">Produtos</div>
                 </div>
             </div>
             <div class="col-lg col-md-4 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-calculator"></i></div>
+
                     <div class="metric-value" id="valor-medio">R$ {{ number_format($dashboard_geral->valor_medio ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Ticket Médio</div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
+
                     <div class="metric-value" id="valor-total">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Faturamento</div>
                 </div>

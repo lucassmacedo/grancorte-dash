@@ -17,21 +17,21 @@
         <div class="row g-4 mb-5">
             <div class="col-xl-2 col-lg-4 col-md-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-file-invoice"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['total_pedidos'] ?? 0) }}</div>
                     <div class="metric-label">Pedidos</div>
                 </div>
             </div>
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-1">
-                    <div class="metric-icon"><i class="fas fa-weight-hanging"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['total_kg_pedidos'] ?? 0, 2, ',', '.') }} kg</div>
                     <div class="metric-label">Total KG</div>
                 </div>
             </div>
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-2">
-                    <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
+
                     <div class="metric-value">R$ {{ number_format($dashboard['previsao_faturamento'] ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Previsão Faturamento</div>
                 </div>
@@ -40,7 +40,7 @@
 
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-drumstick-bite"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['total_carcacas_vendidas'] ?? 0,0,'.','.') }}</div>
                     <div class="metric-label">Carcaças Vendidas</div>
                 </div>
@@ -49,14 +49,14 @@
         <div class="row g-4 mb-5">
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-4">
-                    <div class="metric-icon"><i class="fas fa-check-circle"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['pedidos_faturados'] ?? 0) }}</div>
                     <div class="metric-label">Faturados</div>
                 </div>
             </div>
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-1">
-                    <div class="metric-icon"><i class="fas fa-times-circle"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['pedidos_cancelados'] ?? 0) }}</div>
                     <div class="metric-label">Cancelados</div>
                 </div>
@@ -64,21 +64,21 @@
             <div class="col-xl col-lg-4 col-md-6">
 
                 <div class="metric-card variant-1">
-                    <div class="metric-icon"><i class="fas fa-ban"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['pedidos_bloqueados'] ?? 0) }}</div>
                     <div class="metric-label">Bloqueados</div>
                 </div>
             </div>
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-4">
-                    <div class="metric-icon"><i class="fas fa-arrow-down"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['pedidos_baixados'] ?? 0) }}</div>
                     <div class="metric-label">Baixados</div>
                 </div>
             </div>
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-3">
-                    <div class="metric-icon"><i class="fas fa-hourglass-half"></i></div>
+
                     <div class="metric-value">{{ number_format($dashboard['pedidos_em_aberto'] ?? 0) }}</div>
                     <div class="metric-label">Em Aberto</div>
                 </div>

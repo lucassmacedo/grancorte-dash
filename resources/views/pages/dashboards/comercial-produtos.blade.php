@@ -16,16 +16,14 @@
         <div class="row g-4 mb-5">
             <div class="col-xl col-lg-3 col-md-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-receipt"></i></div>
+
                     <div class="metric-value" id="total-produtos">{{ $dashboard_geral->notas ?? '-' }}</div>
                     <div class="metric-label">Notas Faturadas</div>
                 </div>
             </div>
             <div class="col-xl col-lg-3 col-md-6">
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fas fa-boxes"></i>
-                    </div>
+
                     <div class="metric-value" id="total-produtos">{{ $produtos_vendidos->produtos }}</div>
                     <div class="metric-label">Clientes Atendidos</div>
                 </div>
@@ -33,21 +31,21 @@
 
             <div class="col-xl col-md-3 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-users"></i></div>
+
                     <div class="metric-value" id="total-clientes">{{ $dashboard_geral->clientes  }}</div>
                     <div class="metric-label">Clientes</div>
                 </div>
             </div>
             <div class="col-xl col-md-3 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-calculator"></i></div>
+
                     <div class="metric-value ">R$ {{ number_format($dashboard_geral->valor_medio ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Ticket Médio</div>
                 </div>
             </div>
             <div class="col-xl col-md-3 col-sm-6">
                 <div class="metric-card">
-                    <div class="metric-icon"><i class="fas fa-dollar-sign"></i></div>
+
                     <div class="metric-value ">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Faturamento</div>
                 </div>

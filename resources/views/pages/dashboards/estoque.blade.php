@@ -20,9 +20,7 @@
         <div class="row g-4 mb-5">
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card">
-                    <div class="metric-icon">
-                        <i class="fas fa-boxes"></i>
-                    </div>
+
                     <div class="metric-value" id="total-produtos">{{ number_format($metricas['total_produtos'] ?? 0) }}</div>
                     <div class="metric-label">Total Produtos</div>
                 </div>
@@ -30,9 +28,7 @@
 
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-1">
-                    <div class="metric-icon">
-                        <i class="fas fa-weight-hanging"></i>
-                    </div>
+
                     <div class="metric-value" id="saldo-total">{{ number_format($metricas['total_saldo_total'] ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Saldo Total (KG)</div>
                 </div>
@@ -40,9 +36,7 @@
 
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-2">
-                    <div class="metric-icon">
-                        <i class="fas fa-snowflake"></i>
-                    </div>
+
                     <div class="metric-value" id="saldo-tunel">{{ number_format($metricas['total_saldo_tunel'] ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Em Túnel (KG)</div>
                 </div>
@@ -50,9 +44,7 @@
 
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-3">
-                    <div class="metric-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
+
                     <div class="metric-value" id="saldo-venda">{{ number_format($metricas['total_saldo_p_venda'] ?? 0, 2, ',', '.') }}</div>
                     <div class="metric-label">Disponível Venda (KG)</div>
                 </div>
