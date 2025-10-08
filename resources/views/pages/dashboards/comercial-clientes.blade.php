@@ -60,7 +60,7 @@
                         <tr>
                             <th>Cliente</th>
                             <th class="text-center">Notas</th>
-                            <th class="text-center">Valor Líquido</th>
+                            <th class="text-center">Vl. Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -92,7 +92,7 @@
                         <tr>
                             <th>Ramo de Atividade</th>
                             <th class="text-center">Notas</th>
-                            <th class="text-center">Valor Líquido</th>
+                            <th class="text-center">Vl. Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -124,7 +124,7 @@
                         <tr>
                             <th>Área</th>
                             <th class="text-center">Notas</th>
-                            <th class="text-center">Valor Líquido</th>
+                            <th class="text-center">Vl. Líquido</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -156,7 +156,7 @@
                         <tr>
                             <th>Cidade</th>
                             <th class="text-center">Notas</th>
-                            <th class="text-center">Valor Líquido</th>
+                            <th class="text-center">Vl. Líquido</th>
                         </tr>
                         </thead>
                         <tbody>

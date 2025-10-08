@@ -181,7 +181,7 @@
         }
 
         .metric-value {
-            font-size: 3rem;
+            font-size: 3.9rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
             background: linear-gradient(45deg, #fff, var(--glow-primary));
@@ -191,7 +191,7 @@
         }
 
         .metric-label {
-            font-size: 2.1rem;
+            font-size: 3.1rem;
             color: var(--text-secondary);
             font-weight: 700;
             /*text-transform: uppercase;*/
@@ -221,22 +221,14 @@
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
         }
 
-        .chart-title {
-            font-size: 1.9rem;
-            font-weight: bold;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin: 0;
-        }
+
 
         .chart-title i {
             background: var(--primary-gradient);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 1.9rem;
+            font-size: 2.9rem;
 
         }
 
@@ -267,18 +259,7 @@
             border-spacing: 0;
         }
 
-        .elegant-table th {
-            background: rgba(102, 126, 234, 0.2);
-            color: var(--text-primary);
-            font-weight: 600;
-            padding: 1rem;
-            text-align: left;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            position: sticky;
-        }
+
 
         .elegant-table td {
             padding: 1rem;
@@ -422,7 +403,7 @@
             }
         }
         .chart-title {
-            font-size: 1.5rem;
+            font-size: 2.5rem;
             font-weight: 600;
             color: var(--text-primary);
             display: flex;
@@ -449,7 +430,7 @@
             font-weight: 600;
             padding: 1rem;
             text-align: left;
-            font-size: 1.2rem;
+            font-size: 2.2rem;
             text-transform: uppercase;
             letter-spacing: .5px;
             position: sticky;
@@ -461,7 +442,7 @@
             padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, .1);
             color: var(--text-primary);
-            font-size: 1.6rem;
+            font-size: 2.2rem;
             font-weight: 400;
             transition: background .3s ease;
         }
