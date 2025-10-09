@@ -67,6 +67,7 @@ class ComercialProdutosDashboardController extends Controller
             ->where('cancelada', false)
             ->first();
 
+        $tabela = $request->get('tabela', 'performance'); // valor padrão: 'performance'
 
         return view('pages.dashboards.comercial-produtos', compact(
             'dashboard_geral',
@@ -75,6 +76,7 @@ class ComercialProdutosDashboardController extends Controller
             'produtos_mais_vendidos_valor',
             'vendas_ultimos_7_dias',
             'produtos_vendidos',
+            'tabela'
         ));
     }
 }

@@ -413,7 +413,7 @@
         }
 
         .table-container {
-            max-height: 580px;
+            /*max-height: 580px;*/
             overflow-y: auto;
             padding: 1rem;
         }
@@ -442,7 +442,7 @@
             padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, .1);
             color: var(--text-primary);
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 400;
             transition: background .3s ease;
         }

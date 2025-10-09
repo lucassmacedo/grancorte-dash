@@ -127,6 +127,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->take(5)
             ->get();
 
+        $tabela = $request->get('tabela', 'grafico7dias'); // valor padrão: 'vendedores'
         return view('pages.dashboards.comercial-vendedores', compact(
             'dashboard_geral',
             'produtos_vendidos',
@@ -134,7 +135,8 @@ class ComercialVendedoresDashboardController extends Controller
             'vendas_ultimos_7_dias',
             'top_clientes',
             'produtos_mais_vendidos',
-            'ultimas_vendas'
+            'ultimas_vendas',
+            'tabela'
         ));
     }
 }

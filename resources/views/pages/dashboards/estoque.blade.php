@@ -51,11 +51,41 @@
             </div>
         </div>
 
-        <!-- Gráficos e Tabelas -->
-        <div class="row g-4">
+        @if($tabela === 'graficos')
+            <!-- Gráficos e Tabelas -->
+            <div class="row g-4">
+                <!-- Gráfico de Distribuição por Grupo -->
+                <div class="col-xl-7 col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h1 class="chart-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Estoque por Grupo (Top 15)
+                            </h1>
+                        </div>
+                        <div class="chart-content" style="height: 500px; overflow-y: auto;">
+                            <div id="chart-grupos" style="height: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Top Produtos -->
-            <div class="col-xl-6 col-lg-6">
+                <!-- Gráfico de Conservação -->
+                <div class="col-xl-5 col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h1 class="chart-title">
+                                <i class="fas fa-thermometer-half"></i>
+                                Distribuição Túnel vs Disponível
+                            </h1>
+                        </div>
+                        <div class="chart-content">
+                            <div id="chart-distribuicao"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif($tabela === 'produtos')
+            <div class="col-12">
                 <div class="chart-card">
                     <div class="chart-header">
                         <h1 class="chart-title">
@@ -75,7 +105,7 @@
                             <tbody>
                             @forelse($top_produtos ?? [] as $produto)
                                 <tr>
-                                    <td><span class="badge-elegant">{{ $produto['codigo'] ?? '' }}</span></td>
+                                    <td><span class="badge-elegant fs-1">{{ str_replace('-0','',$produto['codigo'] )}}</span></td>
                                     <td>{{ Str::limit($produto['descricao'] ?? '', 90) }}</td>
                                     <td style="text-align: right; font-weight: 600;">{{ number_format($produto['saldo_total'] ?? 0, 2, ',', '.') }}</td>
                                 </tr>
@@ -89,9 +119,8 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Estoque por Local -->
-            <div class="col-xl-6 col-lg-6">
+        @elseif($tabela === 'local')
+            <div class="col-12">
                 <div class="chart-card">
                     <div class="chart-header">
                         <h1 class="chart-title">
@@ -112,11 +141,11 @@
                             <tbody>
                             @foreach($locais as $local)
                                 <tr class="text-white">
-                                    <td><span class="badge badge-info fs-6">{{ $local['local'] }}</span></td>
-                                    <td class="text-center ">{{ number_format($local['quantidade_produtos']) }}</td>
+                                    <td><span class="badge badge-info fs-1">{{ str_replace('-',' | ',$local['local'] )}}</span></td>
+                                    <td class="text-center fw-bold ">{{ number_format($local['quantidade_produtos']) }}</td>
                                     <td class="text-end fw-bold">{{ number_format($local['saldo_total'], 0, ',', '.') }}</td>
-                                    <td class="text-end text-primary">{{ number_format($local['saldo_tunel'], 0, ',', '.') }}</td>
-                                    <td class="text-end text-success">{{ number_format($local['saldo_venda'], 0, ',', '.') }}</td>
+                                    <td class="text-end text-primary fw-bold">{{ number_format($local['saldo_tunel'], 0, ',', '.') }}</td>
+                                    <td class="text-end text-success fw-bold">{{ number_format($local['saldo_venda'], 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -124,38 +153,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Gráfico de Distribuição por Grupo -->
-            <div class="col-xl-7 col-lg-6">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h1 class="chart-title">
-                            <i class="fas fa-chart-bar"></i>
-                            Estoque por Grupo (Top 15)
-                        </h1>
-                    </div>
-                    <div class="chart-content" style="height: 500px; overflow-y: auto;">
-                        <div id="chart-grupos" style="height: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gráfico de Conservação -->
-            <div class="col-xl-5 col-lg-6">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h1 class="chart-title">
-                            <i class="fas fa-thermometer-half"></i>
-                            Distribuição Túnel vs Disponível
-                        </h1>
-                    </div>
-                    <div class="chart-content">
-                        <div id="chart-distribuicao"></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        @endif
     </div>
 
 @endsection
@@ -182,7 +180,7 @@
             }],
             chart: {
                 type: 'bar',
-                height: gruposData.length * 25 + 100, // Altura dinâmica baseada no número de grupos
+                height: gruposData.length * 65 + 100, // Altura dinâmica baseada no número de grupos
                 fontFamily: 'Inter, sans-serif',
                 toolbar: {show: false},
                 background: 'transparent'
@@ -209,7 +207,7 @@
                 textAnchor: 'start',
                 style: {
                     colors: ['#ffffff'],
-                    fontSize: '15px',
+                    fontSize: '20px',
                     fontWeight: 800
                 },
                 formatter: function (val) {
@@ -225,7 +223,7 @@
                 labels: {
                     style: {
                         colors: '#ffffff',
-                        fontSize: '15px',
+                        fontSize: '20px',
                         fontWeight: 800
                     },
                     formatter: function (val) {
@@ -242,7 +240,7 @@
                 labels: {
                     style: {
                         colors: '#ffffff',
-                        fontSize: '15px',
+                        fontSize: '18px',
                         fontWeight: 800
                     },
                     maxWidth: 500, // Aumentado de 200 para 300px
@@ -464,4 +462,3 @@
         });
     </script>
 @endsection
-

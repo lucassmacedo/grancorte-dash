@@ -138,13 +138,34 @@
 <script>
     // Substitua os URLs abaixo pelos seus dashboards
     const dashboardConfigsRaw = [
+        // Estoque
         {url: '{{ route('dashboard.estoque') }}', tempo: 30},
+        {url: '{{ route('dashboard.estoque', ['tabela' => 'produtos']) }}', tempo: 30},
+        {url: '{{ route('dashboard.estoque', ['tabela' => 'local']) }}', tempo: 30},
+
+        // Pedidos
+        {url: '{{ route('dashboard.pedidos', ['tabela' => 'valor']) }}', tempo: 30},
+        {url: '{{ route('dashboard.pedidos', ['tabela' => 'carcaca']) }}', tempo: 30},
+        {url: '{{ route('dashboard.pedidos', ['tabela' => 'rota']) }}', tempo: 30},
+
+        // Comercial Clientes
+        {url: '{{ route('dashboard.comercial-clientes', ['tabela' => 'clientes']) }}', tempo: 30},
+        {url: '{{ route('dashboard.comercial-clientes', ['tabela' => 'ramo']) }}', tempo: 30},
+        {url: '{{ route('dashboard.comercial-clientes', ['tabela' => 'area']) }}', tempo: 30},
+        {url: '{{ route('dashboard.comercial-clientes', ['tabela' => 'cidade']) }}', tempo: 30},
+
+        // Comercial Produtos
+        {url: '{{ route('dashboard.comercial-produtos', ['tabela' => 'performance']) }}', tempo: 30},
+        {url: '{{ route('dashboard.comercial-produtos', ['tabela' => 'quantidade']) }}', tempo: 30},
+
+        // Comercial Vendedores
+        {url: '{{ route('dashboard.comercial-vendedores', ['tabela' => 'vendedores']) }}', tempo: 30},
+        {url: '{{ route('dashboard.comercial-vendedores', ['tabela' => 'clientes']) }}', tempo: 30},
+        {url: '{{ route('dashboard.comercial-vendedores', ['tabela' => 'produtos']) }}', tempo: 30},
+
         {url: '{{ route('dashboard.logistica') }}', tempo: 30},
-        {url: '{{ route('dashboard.vendedores') }}', tempo: 30},
-        {url: '{{ route('dashboard.produtos') }}', tempo: 30},
-        {url: '{{ route('dashboard.clientes') }}', tempo: 30},
-        {url: '{{ route('dashboard.pedidos') }}', tempo: 60, periodo: {inicio: 10, fim: 22}},
-        {url: '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php', tempo: 60},
+
+        {url: '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/index.php', tempo: 30},
         {url: '{{ route('proxy.dashboard') }}?url=http://104.236.233.129/grancorte/oeetv/status_area_limpa.php', tempo: 10}
     ];
 

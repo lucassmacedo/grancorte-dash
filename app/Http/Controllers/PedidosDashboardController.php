@@ -103,7 +103,7 @@ class PedidosDashboardController extends Controller
             'total_carcacas_vendidas'    => $total_carcacas_vendidas,
             'top_pedidos_por_rota'       => $top_pedidos_por_rota,
         ];
-
-        return view('pages.dashboards.pedidos', compact('dashboard'));
+        $tabela = $request->get('tabela', 'valor');
+        return view('pages.dashboards.pedidos', compact('dashboard', 'tabela'));
     }
 }

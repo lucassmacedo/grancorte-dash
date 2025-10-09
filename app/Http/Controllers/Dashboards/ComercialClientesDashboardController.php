@@ -73,12 +73,14 @@ class ComercialClientesDashboardController extends Controller
             ->take(20)
             ->get();
 
+        $tabela = $request->get('tabela', 'clientes'); // valor padrão: 'clientes'
         return view('pages.dashboards.comercial-clientes', compact(
             'dashboard_geral',
             'clientes_performance',
             'top_ramo_atividade',
             'top_areas',
-            'top_cidades'
+            'top_cidades',
+            'tabela'
         ));
     }
 }

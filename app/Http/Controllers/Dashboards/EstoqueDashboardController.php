@@ -12,12 +12,14 @@ class EstoqueDashboardController extends Controller
     public function index(Request $request)
     {
         // Buscar dados principais do estoque
-        $estoque = DB::connection('sqlsrv')->table('vw_pdv_estoque')->get()
-            ->map(function ($item) {
-                $item->GRUPO_ESTOQUE = str_replace(['MERCADO', '  '], ['MER.', ''], $item->GRUPO_ESTOQUE);
+        $estoque = \Cache::remember('estoque_dashboard_data', now()->addMinutes(5), function () {
+            return DB::connection('sqlsrv')->table('vw_pdv_estoque')->get()
+                ->map(function ($item) {
+                    $item->GRUPO_ESTOQUE = str_replace(['MERCADO', '  '], ['MER.', ''], $item->GRUPO_ESTOQUE);
 
-                return $item;
-            });
+                    return $item;
+                });
+        });
 
         // Métricas principais com verificações de segurança
         $metricas = [
@@ -79,12 +81,13 @@ class EstoqueDashboardController extends Controller
         });
 
 
-
         // Distribuição túnel vs disponível
         $distribuicao = [
             'em_tunel'   => $metricas['total_saldo_tunel'],
             'disponivel' => $metricas['total_saldo_p_venda'],
         ];
+
+        $tabela = $request->get('tabela', 'graficos'); // valor padrão: 'produtos'
 
         return view('pages.dashboards.estoque', compact(
             'metricas',
@@ -92,7 +95,8 @@ class EstoqueDashboardController extends Controller
             'conservacao',
             'locais',
             'top_produtos',
-            'distribuicao'
+            'distribuicao',
+            'tabela'
         ));
     }
 

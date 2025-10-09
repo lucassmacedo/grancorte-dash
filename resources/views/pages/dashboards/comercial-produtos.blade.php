@@ -43,83 +43,83 @@
                     <div class="metric-label">Ticket Médio</div>
                 </div>
             </div>
-            <div class="col-xl col-md-3 col-sm-6">
-                <div class="metric-card">
+{{--            <div class="col-xl col-md-3 col-sm-6">--}}
+{{--                <div class="metric-card">--}}
 
-                    <div class="metric-value ">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>
-                    <div class="metric-label">Faturamento</div>
-                </div>
-            </div>
+{{--                    <div class="metric-value ">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>--}}
+{{--                    <div class="metric-label">Faturamento</div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
 
 
         <div class="row g-4 mb-5">
 
-            <!-- Top Produtos -->
-            <div class="col-xl-6 col-lg-6">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h1 class="chart-title">
-                            <i class="fas fa-trophy"></i>
-                            Top 5 Produtos
-                        </h1>
-                    </div>
-                    <div class="table-container">
-                        <table class="elegant-table">
-                            <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>Notas</th>
-                                <th>QTD</th>
-                                <th>Valor Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($produtos_performance as $produto)
+            <!-- Tabelas Condicionais -->
+            @if($tabela === 'performance')
+                <div class="col-12">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h1 class="chart-title">
+                                <i class="fas fa-trophy"></i>
+                                Top 5 Produtos
+                            </h1>
+                        </div>
+                        <div class="table-container">
+                            <table class="elegant-table">
+                                <thead>
                                 <tr>
-                                    <td>{{ $produto->descricao }}</td>
-                                    <td>{{ $produto->notas }}</td>
-                                    <td>{{ $produto->quantidade_total }}</td>
-                                    <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
+                                    <th>Produto</th>
+                                    <th>Notas</th>
+                                    <th>QTD</th>
+                                    <th>Valor Total</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @foreach($produtos_performance as $produto)
+                                    <tr>
+                                        <td>{{ $produto->descricao }}</td>
+                                        <td>{{ $produto->notas }}</td>
+                                        <td>{{ $produto->quantidade_total }}</td>
+                                        <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Top Produtos -->
-            <div class="col-xl-6 col-lg-6">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h1 class="chart-title">
-                            <i class="fas fa-trophy"></i>
-                            Top 5 Produtos Mais Vendidos (Quantidade)
-                        </h1>
-                    </div>
-                    <div class="table-container">
-                        <table class="elegant-table">
-                            <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>QTD</th>
-                                <th>Valor Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($produtos_mais_vendidos as $produto)
+            @elseif($tabela === 'quantidade')
+                <div class="col-12">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h1 class="chart-title">
+                                <i class="fas fa-trophy"></i>
+                                Top 5 Produtos Mais Vendidos (Quantidade)
+                            </h1>
+                        </div>
+                        <div class="table-container">
+                            <table class="elegant-table">
+                                <thead>
                                 <tr>
-                                    <td>{{ $produto->descricao }}</td>
-                                    <td>{{ $produto->quantidade_total }}</td>
-                                    <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
+                                    <th>Produto</th>
+                                    <th>QTD</th>
+                                    <th>Valor Total</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @foreach($produtos_mais_vendidos as $produto)
+                                    <tr>
+                                        <td>{{ $produto->descricao }}</td>
+                                        <td>{{ $produto->quantidade_total }}</td>
+                                        <td>R$ {{ number_format($produto->valor_total, 2, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            @endif
         </div>
 @endsection
