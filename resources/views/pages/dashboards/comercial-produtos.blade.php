@@ -25,7 +25,7 @@
                 <div class="metric-card">
 
                     <div class="metric-value" id="total-produtos">{{ $produtos_vendidos->produtos }}</div>
-                    <div class="metric-label">Clientes Atendidos</div>
+                    <div class="metric-label">Produtos</div>
                 </div>
             </div>
 

@@ -24,7 +24,6 @@
             </div>
             <div class="col-xl col-lg-4 col-md-6">
                 <div class="metric-card variant-1">
-
                     <div class="metric-value">{{ number_format($dashboard['total_kg_pedidos'] ?? 0, 2, ',', '.') }} kg</div>
                     <div class="metric-label">Total KG</div>
                 </div>
