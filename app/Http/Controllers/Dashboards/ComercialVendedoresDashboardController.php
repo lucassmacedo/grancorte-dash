@@ -28,7 +28,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->first();
 
         // Produtos distintos vendidos
@@ -36,7 +36,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->first();
 
         // Performance por vendedor
@@ -53,7 +53,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->orderBy('valor_liquido', 'desc')
             ->take(5)
             ->get();
@@ -71,7 +71,7 @@ class ComercialVendedoresDashboardController extends Controller
         )
             ->whereRaw("(data_mvto || ' ' || hora) >= ? AND (data_mvto || ' ' || hora) < ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->groupBy(DB::raw("CASE WHEN hora >= '20:00:00' THEN (data_mvto::date + INTERVAL '1 day') ELSE data_mvto::date END"))
             ->orderBy('dia_referencia')
             ->get()
@@ -92,7 +92,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->groupBy('cod_cli_for', 'clientes.nome')
             ->orderBy('valor_liquido', 'desc')
             ->take(5)
@@ -110,7 +110,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->groupBy('cod_produto', 'produtos.descricao')
             ->orderBy('quantidade_total', 'desc')
             ->take(5)
@@ -130,7 +130,7 @@ class ComercialVendedoresDashboardController extends Controller
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->orderBy('data_mvto', 'desc')
             ->take(5)
             ->get();

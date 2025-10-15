@@ -26,7 +26,7 @@ class ComercialClientesDashboardController extends Controller
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial',[30201])
+            ->whereNotIn('cliente_notas.cod_filial',[30201])
             ->first();
 
         $clientes_performance = ClienteNotas::selectRaw("
@@ -40,7 +40,7 @@ class ComercialClientesDashboardController extends Controller
             ->groupBy('cliente_notas.cod_cli_for', 'clientes.nome')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial',[30201])
+            ->whereNotIn('cliente_notas.cod_filial',[30201])
             ->orderBy('valor_liquido', 'desc')
             ->take(5)
             ->get();
@@ -50,7 +50,7 @@ class ComercialClientesDashboardController extends Controller
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial',[30201])
+            ->whereNotIn('cliente_notas.cod_filial',[30201])
             ->groupBy('clientes.ramo_atividade')
             ->orderByDesc('valor_liquido')
             ->take(5)
@@ -61,7 +61,7 @@ class ComercialClientesDashboardController extends Controller
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial',[30201])
+            ->whereNotIn('cliente_notas.cod_filial',[30201])
             ->groupBy('clientes.nome_area')
             ->orderByDesc('valor_liquido')
             ->take(5)
@@ -72,7 +72,7 @@ class ComercialClientesDashboardController extends Controller
             ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial',[30201])
+            ->whereNotIn('cliente_notas.cod_filial',[30201])
             ->groupByRaw("unaccent(upper(cidade || ' - ' || uf))")
             ->orderByDesc('valor_liquido')
             ->take(20)
