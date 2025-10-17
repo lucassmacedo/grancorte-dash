@@ -223,6 +223,19 @@
     let interval;
     let preloadStarted = false;
 
+    // Escuta mensagens de erro dos iframes
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'dashboard-error') {
+            console.warn('Dashboard com erro detectado, pulando...', event.data);
+            // Pula para o próximo dashboard após 3 segundos
+            setTimeout(() => {
+                if (!isPaused) {
+                    nextDashboard();
+                }
+            }, 3000);
+        }
+    });
+
     function startTimer() {
         clearInterval(interval);
         interval = setInterval(updateTimer, 1000);
@@ -236,13 +249,33 @@
         preloadStarted = false;
 
         iframe.src = dashboardConfigs[index].url;
+
+        // Timeout de segurança caso o iframe não carregue
+        const loadTimeout = setTimeout(() => {
+            console.warn('Timeout ao carregar dashboard, pulando...');
+            loading.classList.remove('show');
+            if (!isPaused) {
+                nextDashboard();
+            }
+        }, 15000); // 15 segundos de timeout total
+
         iframe.onload = () => {
+            clearTimeout(loadTimeout);
             loading.classList.remove('show');
             iframe.style.opacity = '1';
             timeLeft = dashboardConfigs[index].tempo;
             timerDisplay.textContent = timeLeft + 's';
             progressFill.style.width = '0%';
             startTimer();
+        };
+
+        iframe.onerror = () => {
+            clearTimeout(loadTimeout);
+            console.error('Erro ao carregar dashboard');
+            loading.classList.remove('show');
+            if (!isPaused) {
+                nextDashboard();
+            }
         };
 
         // Atualiza indicadores
@@ -260,6 +293,14 @@
 
     function swapToPreloadedDashboard() {
         clearInterval(interval);
+
+        const loadTimeout = setTimeout(() => {
+            console.warn('Timeout ao trocar dashboard, tentando próximo...');
+            loading.classList.remove('show');
+            currentIndex = (currentIndex + 1) % dashboardConfigs.length;
+            loadDashboard(currentIndex);
+        }, 15000);
+
         iframe.src = preloadIframe.src;
         preloadIframe.src = '';
         preloadStarted = false;
@@ -268,12 +309,22 @@
             ind.classList.toggle('active', i === currentIndex);
         });
         iframe.onload = () => {
+            clearTimeout(loadTimeout);
             loading.classList.remove('show');
             iframe.style.opacity = '1';
             timeLeft = dashboardConfigs[currentIndex].tempo;
             timerDisplay.textContent = timeLeft + 's';
             progressFill.style.width = '0%';
             startTimer();
+        };
+        iframe.onerror = () => {
+            clearTimeout(loadTimeout);
+            console.error('Erro ao trocar dashboard');
+            loading.classList.remove('show');
+            if (!isPaused) {
+                const next = (currentIndex + 1) % dashboardConfigs.length;
+                loadDashboard(next);
+            }
         };
     }
 
