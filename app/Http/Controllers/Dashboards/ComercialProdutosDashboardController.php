@@ -26,7 +26,7 @@ class ComercialProdutosDashboardController extends Controller
             ->join('cliente_notas', 'cliente_notas.id', 'cliente_notas_items.id_nota')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->first();
 
         $produtos_performance = ClienteNotasItem::selectRaw("
@@ -40,7 +40,7 @@ class ComercialProdutosDashboardController extends Controller
             ->groupBy('cod_produto', 'descricao')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->orderBy('valor_total', 'desc')
             ->take(10)
             ->get();
@@ -57,7 +57,7 @@ class ComercialProdutosDashboardController extends Controller
             ->join('cliente_notas', 'cliente_notas.id', 'cliente_notas_items.id_nota')
             ->whereRaw("(data_mvto || ' ' || hora) BETWEEN ? AND ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->groupBy(DB::raw('DATE(cliente_notas.data_mvto)'))
             ->orderBy('dia')
             ->get()
@@ -68,7 +68,7 @@ class ComercialProdutosDashboardController extends Controller
             ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
             ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
             ->where('cancelada', false)
-            ->whereNotIn('cod_filial', [30201])
+            ->whereNotIn('cliente_notas.cod_filial', [30201])
             ->first();
 
         $tabela = $request->get('tabela', 'performance'); // valor padrão: 'performance'
