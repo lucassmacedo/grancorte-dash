@@ -87,7 +87,7 @@ class PedidosDashboardController extends Controller
             ->orderByDesc('total')
             ->limit(10)
             ->get();
-        
+
         // add total KG por rota
         $top_rotas_por_kg = \App\Models\Pedido::whereDate('data_entrega', $hoje)
             ->where('pedidos.status', '!=', $statusCancelado)

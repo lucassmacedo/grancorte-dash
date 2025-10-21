@@ -147,6 +147,7 @@
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'valor']) }}', tempo: 30},
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'carcaca']) }}', tempo: 30},
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'rota']) }}', tempo: 30},
+        {url: '{{ route('dashboard.pedidos', ['tabela' => 'top_rotas_por_kg']) }}', tempo: 30},
 
         // Comercial Clientes
         {url: '{{ route('dashboard.clientes', ['tabela' => 'clientes']) }}', tempo: 30},
