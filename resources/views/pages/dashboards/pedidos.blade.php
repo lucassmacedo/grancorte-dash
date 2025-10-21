@@ -183,6 +183,34 @@
                             </div>
                         </div>
                     </div>
+                @elseif($tabela === 'top_rotas_por_kg')
+                    <div class="col-12">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 class="chart-title"><i class="fas fa-route"></i> Top 10 Pedidos por Rota</h3>
+                            </div>
+                            <div class="table-container">
+                                <table class="elegant-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Rota</th>
+                                        <th>Total Vendido</th>
+                                        <th>QTD Pedidos</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($dashboard['top_rotas_por_kg'] as $rota)
+                                        <tr>
+                                            <td>{{ $rota->rota_id }} - {{ $rota->rota_nome }}</td>
+                                            <td>{{ number_format($rota->total_kg, 2, ',', '.') }} Kg</td>
+                                            <td>{{ number_format($rota->qtd_pedidos, 0, ',', '.') }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>
