@@ -90,7 +90,7 @@
                     <div class="chart-header">
                         <h1 class="chart-title">
                             <i class="fas fa-trophy"></i>
-                            Top 10 Produtos - Maior Estoque
+                            Top 5 Produtos - Maior Estoque
                         </h1>
                     </div>
                     <div class="table-container">
