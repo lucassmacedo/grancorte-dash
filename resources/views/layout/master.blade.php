@@ -224,11 +224,11 @@
 
 
         .chart-title i {
-            background: var(--primary-gradient);
+            background: var(--warning-gradient);
             background-clip: text;
-            -webkit-background-clip: text;
+            -webkit-bac--bs-warning-active text;
             -webkit-text-fill-color: transparent;
-            font-size: 2.9rem;
+            font-size: 3rem;
 
         }
 
@@ -403,9 +403,9 @@
             }
         }
         .chart-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--bs-warning-active);
             display: flex;
             align-items: center;
             gap: .75rem;

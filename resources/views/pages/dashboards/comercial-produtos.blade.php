@@ -62,7 +62,7 @@
                         <div class="chart-header">
                             <h1 class="chart-title">
                                 <i class="fas fa-trophy"></i>
-                                Top 5 Produtos
+                                Top 10 Produtos
                             </h1>
                         </div>
                         <div class="table-container">
