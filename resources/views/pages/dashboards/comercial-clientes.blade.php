@@ -3,7 +3,7 @@
 @section('content')
     <div class="dashboard-container">
         <div class="tv-header">
-            <h1>Comercial - Clientes</h1>
+            <h1>Comercial - Clientes ({{ request()->get('atacado',true) ? 'Atacado' :'Varejo' }})</h1>
             <div class="subtitle">
                 <span>Dashboard em Tempo Real</span>
                 <div class="live-indicator position-absolute" style="right: 1%;top:40px">
@@ -17,7 +17,7 @@
                 <div class="metric-card">
 
                     <div class="metric-value" id="total-produtos">{{ $dashboard_geral->clientes ?? '-' }}</div>
-                    <div class="metric-label">Total de Clientes</div>
+                    <div class="metric-label">Total de Clientes </div>
                 </div>
             </div>
             <div class="col-xl col-lg-4 col-md-6">
@@ -34,13 +34,13 @@
                     <div class="metric-label">Ticket Médio</div>
                 </div>
             </div>
-{{--            <div class="col-xl col-lg-4 col-md-6">--}}
-{{--                <div class="metric-card">--}}
+            {{--            <div class="col-xl col-lg-4 col-md-6">--}}
+            {{--                <div class="metric-card">--}}
 
-{{--                    <div class="metric-value" id="total-produtos">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>--}}
-{{--                    <div class="metric-label">Faturamento</div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--                    <div class="metric-value" id="total-produtos">R$ {{ number_format($dashboard_geral->valor_liquido ?? 0, 2, ',', '.') }}</div>--}}
+            {{--                    <div class="metric-label">Faturamento</div>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
         </div>
         <div class="row g-4 mb-5">
 
@@ -51,7 +51,7 @@
                         <div class="chart-header">
                             <h1 class="chart-title">
                                 <i class="fas fa-trophy"></i>
-                                Top 5 Clientes
+                                Top 5 Clientes ({{ request()->get('atacado',true) ? 'Atacado' :'Varejo' }})
                             </h1>
                         </div>
                         <div class="table-container">

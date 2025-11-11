@@ -147,9 +147,12 @@
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'valor']) }}', tempo: 30},
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'carcaca']) }}', tempo: 30},
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'rota']) }}', tempo: 30},
+        {url: '{{ route('dashboard.pedidos', ['tabela' => 'top_rotas_por_kg']) }}', tempo: 30},
 
         // Comercial Clientes
-        {url: '{{ route('dashboard.clientes', ['tabela' => 'clientes']) }}', tempo: 30},
+        {url: '{{ route('dashboard.clientes', ['tabela' => 'clientes','atacado'=>1]) }}', tempo: 30},
+        {url: '{{ route('dashboard.clientes', ['tabela' => 'clientes','atacado'=>0]) }}', tempo: 30},
+
         {url: '{{ route('dashboard.clientes', ['tabela' => 'ramo']) }}', tempo: 30},
         {url: '{{ route('dashboard.clientes', ['tabela' => 'area']) }}', tempo: 30},
         {url: '{{ route('dashboard.clientes', ['tabela' => 'cidade']) }}', tempo: 30},
