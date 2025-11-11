@@ -139,9 +139,9 @@
     // Substitua os URLs abaixo pelos seus dashboards
     const dashboardConfigsRaw = [
         // Estoque
-        {url: '{{ route('dashboard.estoque') }}', tempo: 30},
-        {url: '{{ route('dashboard.estoque', ['tabela' => 'produtos']) }}', tempo: 30},
-        {url: '{{ route('dashboard.estoque', ['tabela' => 'local']) }}', tempo: 30},
+{{--        {url: '{{ route('dashboard.estoque') }}', tempo: 30},--}}
+{{--        {url: '{{ route('dashboard.estoque', ['tabela' => 'produtos']) }}', tempo: 30},--}}
+{{--        {url: '{{ route('dashboard.estoque', ['tabela' => 'local']) }}', tempo: 30},--}}
 
         // Pedidos
         {url: '{{ route('dashboard.pedidos', ['tabela' => 'valor']) }}', tempo: 30},

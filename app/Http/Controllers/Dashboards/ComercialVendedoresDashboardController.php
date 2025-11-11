@@ -13,139 +13,154 @@ class ComercialVendedoresDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // Intervalo desejado: de ontem às 20:00 até hoje às 23:59:59
-        $inicio = Carbon::yesterday()->setTime(20, 0, 0);
-        $fim    = Carbon::today()->setTime(23, 59, 59);
+        try {
+            // Intervalo desejado: de ontem às 20:00 até hoje às 23:59:59
+            $inicio = Carbon::yesterday()->setTime(20, 0, 0);
+            $fim    = Carbon::today()->setTime(23, 59, 59);
 
-        // Métricas gerais do dia
-        $dashboard_geral = ClienteNotas::selectRaw("
-            count(*) as notas,
-            count(distinct cod_cli_for) as clientes,
-            round(sum(valor_liquido) / count(*),2) as valor_medio,
-            sum(valor_liquido) as valor_liquido,
-            count(distinct cliente_notas.cod_vendedor) as vendedores_ativos")
-            ->leftJoin('users', 'users.codigo', 'cliente_notas.cod_vendedor')
-            ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->first();
+            // Métricas gerais do dia
+            $dashboard_geral = ClienteNotas::selectRaw("
+                count(*) as notas,
+                count(distinct cod_cli_for) as clientes,
+                round(sum(valor_liquido) / count(*),2) as valor_medio,
+                sum(valor_liquido) as valor_liquido,
+                count(distinct cliente_notas.cod_vendedor) as vendedores_ativos")
+                ->leftJoin('users', 'users.codigo', 'cliente_notas.cod_vendedor')
+                ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->first();
 
-        // Produtos distintos vendidos
-        $produtos_vendidos = ClienteNotas::selectRaw("count(distinct cod_produto) as produtos")
-            ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->first();
+            // Produtos distintos vendidos
+            $produtos_vendidos = ClienteNotas::selectRaw("count(distinct cod_produto) as produtos")
+                ->join('cliente_notas_items', 'cliente_notas_items.id_nota', 'cliente_notas.id')
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->first();
 
-        // Performance por vendedor
-        $vendedores_performance = ClienteNotas::selectRaw("
-            cliente_notas.cod_vendedor,
-            users.apelido as vendedor,
-            count(*) as notas,
-            count(distinct cod_cli_for) as clientes,
-            round(sum(valor_liquido) / count(*),2) as valor_medio,
-            sum(valor_liquido) as valor_liquido")
-            ->join('users', 'users.codigo', 'cliente_notas.cod_vendedor')
-            ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->groupBy('cliente_notas.cod_vendedor', 'users.apelido')
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->orderBy('valor_liquido', 'desc')
-            ->take(5)
-            ->get();
+            // Performance por vendedor
+            $vendedores_performance = ClienteNotas::selectRaw("
+                cliente_notas.cod_vendedor,
+                users.apelido as vendedor,
+                count(*) as notas,
+                count(distinct cod_cli_for) as clientes,
+                round(sum(valor_liquido) / count(*),2) as valor_medio,
+                sum(valor_liquido) as valor_liquido")
+                ->join('users', 'users.codigo', 'cliente_notas.cod_vendedor')
+                ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
+                ->groupBy('cliente_notas.cod_vendedor', 'users.apelido')
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->orderBy('valor_liquido', 'desc')
+                ->take(5)
+                ->get();
 
-        // Vendas dos últimos 7 dias (corrigido para PostgreSQL e sintaxe PHP, agrupando por dia das 20h às 20h)
-        $inicio_7dias = Carbon::today()->subDays(6)->setTime(20, 0, 0); // 6 dias atrás às 20h
-        $fim_7dias    = Carbon::today()->addDay()->setTime(20, 0, 0);   // hoje às 20h
+            // Vendas dos últimos 7 dias (corrigido para PostgreSQL e sintaxe PHP, agrupando por dia das 20h às 20h)
+            $inicio_7dias = Carbon::today()->subDays(6)->setTime(20, 0, 0); // 6 dias atrás às 20h
+            $fim_7dias    = Carbon::today()->addDay()->setTime(20, 0, 0);   // hoje às 20h
 
-        $vendas_ultimos_7_dias = ClienteNotas::selectRaw('
-            CASE 
-                WHEN hora >= \'20:00:00\' THEN (data_mvto::date + INTERVAL \'1 day\')
-                ELSE data_mvto::date
-            END as dia_referencia, 
-            sum(valor_liquido) as valor_liquido'
-        )
-            ->whereRaw("(data_mvto || ' ' || hora) >= ? AND (data_mvto || ' ' || hora) < ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->groupBy(DB::raw("CASE WHEN hora >= '20:00:00' THEN (data_mvto::date + INTERVAL '1 day') ELSE data_mvto::date END"))
-            ->orderBy('dia_referencia')
-            ->get()
-            ->map(function ($item) {
-                $item->dia_referencia = Carbon::parse($item->dia_referencia)->format('d/m');
+            $vendas_ultimos_7_dias = ClienteNotas::selectRaw('
+                CASE 
+                    WHEN hora >= \'20:00:00\' THEN (data_mvto::date + INTERVAL \'1 day\')
+                    ELSE data_mvto::date
+                END as dia_referencia, 
+                sum(valor_liquido) as valor_liquido'
+            )
+                ->whereRaw("(data_mvto || ' ' || hora) >= ? AND (data_mvto || ' ' || hora) < ?", [$inicio_7dias->format('Y-m-d H:i:s'), $fim_7dias->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->groupBy(DB::raw("CASE WHEN hora >= '20:00:00' THEN (data_mvto::date + INTERVAL '1 day') ELSE data_mvto::date END"))
+                ->orderBy('dia_referencia')
+                ->get()
+                ->map(function ($item) {
+                    $item->dia_referencia = Carbon::parse($item->dia_referencia)->format('d/m');
 
-                return $item;
-            })
-            ->keyBy('dia_referencia');
+                    return $item;
+                })
+                ->keyBy('dia_referencia');
 
-        // Top clientes do dia
-        $top_clientes = ClienteNotas::selectRaw("
-            cod_cli_for,
-            clientes.nome as cliente,
-            count(*) as notas,
-            sum(valor_liquido) as valor_liquido")
-            ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->groupBy('cod_cli_for', 'clientes.nome')
-            ->orderBy('valor_liquido', 'desc')
-            ->take(5)
-            ->get();
+            // Top clientes do dia
+            $top_clientes = ClienteNotas::selectRaw("
+                cod_cli_for,
+                clientes.nome as cliente,
+                count(*) as notas,
+                sum(valor_liquido) as valor_liquido")
+                ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->groupBy('cod_cli_for', 'clientes.nome')
+                ->orderBy('valor_liquido', 'desc')
+                ->take(5)
+                ->get();
 
-        // Produtos mais vendidos (quantidade)
-        $produtos_mais_vendidos = ClienteNotasItem::selectRaw("
-            cod_produto,
-            produtos.descricao as desc_produto,
-            sum(cliente_notas_items.qtd_auxiliar) as quantidade_total,
-            sum(cliente_notas_items.valor_liquido) as valor_total,
-            count(*) as ocorrencias")
-            ->join('cliente_notas', 'cliente_notas_items.id_nota', 'cliente_notas.id')
-            ->join('produtos', 'produtos.codigo', 'cliente_notas_items.cod_produto')
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->groupBy('cod_produto', 'produtos.descricao')
-            ->orderBy('quantidade_total', 'desc')
-            ->take(5)
-            ->get();
+            // Produtos mais vendidos (quantidade)
+            $produtos_mais_vendidos = ClienteNotasItem::selectRaw("
+                cod_produto,
+                produtos.descricao as desc_produto,
+                sum(cliente_notas_items.qtd_auxiliar) as quantidade_total,
+                sum(cliente_notas_items.valor_liquido) as valor_total,
+                count(*) as ocorrencias")
+                ->join('cliente_notas', 'cliente_notas_items.id_nota', 'cliente_notas.id')
+                ->join('produtos', 'produtos.codigo', 'cliente_notas_items.cod_produto')
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->groupBy('cod_produto', 'produtos.descricao')
+                ->orderBy('quantidade_total', 'desc')
+                ->take(5)
+                ->get();
 
-        // Últimas vendas (tempo real)
-        $ultimas_vendas = ClienteNotas::select([
-            'cliente_notas.id',
-            'cliente_notas.num_docto',
-            'cliente_notas.data_mvto',
-            'cliente_notas.valor_liquido',
-            'users.apelido as vendedor',
-            'clientes.nome as cliente'
-        ])
-            ->join('users', 'users.codigo', 'cliente_notas.cod_vendedor')
-            ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
-            ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
-            ->where('cancelada', false)
-            ->whereNotIn('cliente_notas.cod_filial', [30201])
-            ->orderBy('data_mvto', 'desc')
-            ->take(5)
-            ->get();
+            // Últimas vendas (tempo real)
+            $ultimas_vendas = ClienteNotas::select([
+                'cliente_notas.id',
+                'cliente_notas.num_docto',
+                'cliente_notas.data_mvto',
+                'cliente_notas.valor_liquido',
+                'users.apelido as vendedor',
+                'clientes.nome as cliente'
+            ])
+                ->join('users', 'users.codigo', 'cliente_notas.cod_vendedor')
+                ->join('clientes', 'clientes.codigo', 'cliente_notas.cod_cli_for')
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) >= ?", [$inicio->format('Y-m-d H:i:s')])
+                ->whereRaw("CONCAT(cliente_notas.data_mvto, ' ', cliente_notas.hora) <= ?", [$fim->format('Y-m-d H:i:s')])
+                ->where('cancelada', false)
+                ->whereNotIn('cliente_notas.cod_filial', [30201])
+                ->orderBy('data_mvto', 'desc')
+                ->take(5)
+                ->get();
 
-        $tabela = $request->get('tabela', 'grafico7dias'); // valor padrão: 'vendedores'
+            $tabela = $request->get('tabela', 'grafico7dias'); // valor padrão: 'vendedores'
 
-        return view('pages.dashboards.comercial-vendedores', compact(
-            'dashboard_geral',
-            'produtos_vendidos',
-            'vendedores_performance',
-            'vendas_ultimos_7_dias',
-            'top_clientes',
-            'produtos_mais_vendidos',
-            'ultimas_vendas',
-            'tabela'
-        ));
+            return view('pages.dashboards.comercial-vendedores', compact(
+                'dashboard_geral',
+                'produtos_vendidos',
+                'vendedores_performance',
+                'vendas_ultimos_7_dias',
+                'top_clientes',
+                'produtos_mais_vendidos',
+                'ultimas_vendas',
+                'tabela'
+            ));
+        } catch (\Throwable $e) {
+            \Log::error('Erro no Dashboard Comercial Vendedores', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'url' => $request->fullUrl(),
+                'user_id' => optional($request->user())->id,
+            ]);
+            return response()->view('proxy-error', [
+                'message' => 'Dashboard Comercial Vendedores temporariamente indisponível',
+                'code' => 502
+            ], 502);
+        }
     }
 }
